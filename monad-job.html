@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>量化交易系统开发工程师 — 某前沿AI量化团队</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf9f7;
+  --bg-warm: #f5f3ef;
+  --white: #ffffff;
+  --black: #1a1a1a;
+  --dark: #333333;
+  --body: #555555;
+  --muted: #999999;
+  --light: #c0c0c0;
+  --border: #e8e5e0;
+  --accent: #8b6914;
+  --red: #c44536;
+  --green: #2d6a4f;
+  --serif: 'Playfair Display', 'Noto Serif SC', Georgia, serif;
+  --sans: 'Noto Sans SC', 'Inter', -apple-system, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--body);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+::selection { background: var(--black); color: #fff; }
+
+/* Header */
+.header {
+  padding: 3rem 1.5rem 2.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  background: var(--white);
+}
+
+.header-overline {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--muted);
+  margin-bottom: 1.2rem;
+}
+
+.header h1 {
+  font-family: var(--serif);
+  font-size: 1.7rem;
+  font-weight: 400;
+  color: var(--black);
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.header h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.header .sub {
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+/* Key Facts Strip */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid var(--border);
+  background: var(--white);
+}
+
+.fact {
+  padding: 1.2rem 0.5rem;
+  text-align: center;
+  border-right: 1px solid var(--border);
+}
+
+.fact:last-child { border-right: none; }
+
+.fact .val {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--black);
+  line-height: 1.2;
+}
+
+.fact .lbl {
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--light);
+  margin-top: 0.3rem;
+}
+
+/* Section */
+.section {
+  padding: 2rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-alt { background: var(--bg-warm); }
+.section-white { background: var(--white); }
+
+.s-label {
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--light);
+  margin-bottom: 0.6rem;
+}
+
+.s-title {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--black);
+  margin-bottom: 1rem;
+  letter-spacing: -0.3px;
+}
+
+/* About Company */
+.about-text {
+  font-size: 0.82rem;
+  line-height: 1.9;
+  color: var(--dark);
+}
+
+/* Team */
+.team-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.team-member {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+}
+
+.team-avatar {
+  width: 36px;
+  height: 36px;
+  background: var(--black);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.team-info h4 {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 0.1rem;
+}
+
+.team-info .role {
+  font-size: 0.68rem;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.team-info p {
+  font-size: 0.75rem;
+  color: var(--body);
+  line-height: 1.6;
+}
+
+/* Responsibilities */
+.resp-list {
+  list-style: none;
+  padding: 0;
+}
+
+.resp-list li {
+  font-size: 0.82rem;
+  color: var(--dark);
+  padding: 0.6rem 0;
+  padding-left: 1.2rem;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.7;
+}
+
+.resp-list li:last-child { border-bottom: none; }
+
+.resp-list li .num {
+  position: absolute;
+  left: 0;
+  color: var(--light);
+  font-family: var(--serif);
+  font-size: 0.75rem;
+}
+
+/* Tech Stack */
+.tech-group { margin-bottom: 1.2rem; }
+.tech-group:last-child { margin-bottom: 0; }
+
+.tech-label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.tech-label.must { color: var(--red); }
+.tech-label.nice { color: var(--green); }
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  border: 1px solid var(--border);
+  color: var(--dark);
+  background: var(--white);
+}
+
+.tag.must {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.tag.nice {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+/* Compensation */
+.comp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.comp-item {
+  padding: 1rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+}
+
+.comp-item .val {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 0.15rem;
+}
+
+.comp-item .lbl {
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.comp-highlight {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-left: 2px solid var(--accent);
+  background: var(--white);
+}
+
+.comp-highlight p {
+  font-size: 0.82rem;
+  color: var(--dark);
+  line-height: 1.7;
+}
+
+.comp-highlight strong { color: var(--black); }
+
+/* Interview */
+.interview-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.step {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+
+.step:last-child { border-bottom: none; }
+
+.step-num {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--light);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 28px;
+}
+
+.step-content h4 {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 0.15rem;
+}
+
+.step-content p {
+  font-size: 0.75rem;
+  color: var(--body);
+  line-height: 1.6;
+}
+
+.interview-note {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  background: rgba(45,106,79,0.06);
+  border-left: 2px solid var(--green);
+  font-size: 0.78rem;
+  color: var(--green);
+  line-height: 1.6;
+}
+
+/* Why Join */
+.why-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.why-item {
+  padding: 1rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+}
+
+.why-item h4 {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 0.2rem;
+}
+
+.why-item p {
+  font-size: 0.75rem;
+  color: var(--body);
+  line-height: 1.6;
+}
+
+/* Footer CTA */
+.footer {
+  padding: 2.5rem 1.5rem 3.5rem;
+  text-align: center;
+  background: var(--black);
+}
+
+.footer .cta-label {
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--muted);
+  margin-bottom: 0.8rem;
+}
+
+.footer .cta-text {
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.cta-btn {
+  display: inline-block;
+  padding: 0.7rem 2rem;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: var(--white);
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-family: var(--sans);
+  transition: all 0.3s;
+}
+
+.cta-btn:hover {
+  background: var(--white);
+  color: var(--black);
+}
+
+.footer-note {
+  margin-top: 1.5rem;
+  font-size: 0.62rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Subtle Animations */
+.fade-in {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Desktop cap */
+@media (min-width: 481px) {
+  body {
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-overline">某前沿AI量化团队 · 在招核心岗位</div>
+  <h1>量化交易系统<em>开发</em>工程师</h1>
+  <div class="sub">C++ / Rust · 上海</div>
+</header>
+
+<!-- Key Facts -->
+<div class="facts">
+  <div class="fact">
+    <div class="val">40–60W</div>
+    <div class="lbl">现金 + 期权</div>
+  </div>
+  <div class="fact">
+    <div class="val">1–3年</div>
+    <div class="lbl">C++ 经验</div>
+  </div>
+  <div class="fact">
+    <div class="val">上海</div>
+    <div class="lbl">杭州亦可</div>
+  </div>
+</div>
+
+<!-- About -->
+<div class="section section-white fade-in">
+  <div class="s-label">About</div>
+  <div class="s-title">关于公司</div>
+  <div class="about-text">
+    该公司是一家以<strong>大模型（LLM）驱动量化交易</strong>的科技创新企业。<br><br>
+    我们用 AI 替代传统量化研究员的代码编写工作，实现策略生成 → 模型上线的端到端自动化。目前 A 股和海外加密市场均已实盘运行，正处于快速扩量阶段。
+  </div>
+</div>
+
+<!-- Team -->
+<div class="section section-alt fade-in">
+  <div class="s-label">Team</div>
+  <div class="s-title">创始团队</div>
+  <div class="team-grid">
+    <div class="team-member">
+      <div class="team-avatar">L</div>
+      <div class="team-info">
+        <h4>Lijia</h4>
+        <div class="role">CEO · 创始人</div>
+        <p>连续创业者。Project Numina 联合创始人（AI 数学推理）；Cardiologs 联合创始人兼 CTO（2022年被飞利浦全资收购）</p>
+      </div>
+    </div>
+    <div class="team-member">
+      <div class="team-avatar">W</div>
+      <div class="team-info">
+        <h4>Zhenzhe Ying</h4>
+        <div class="role">联合创始人</div>
+        <p>前蚂蚁集团高级算法专家，NLP 方向 10 年经验，Kaggle Grandmaster 全球 Top 100</p>
+      </div>
+    </div>
+    <div class="team-member">
+      <div class="team-avatar">M</div>
+      <div class="team-info">
+        <h4>联合创始人</h4>
+        <div class="role">联合创始人</div>
+        <p>来自 MiniMax，负责大模型预训练/训练</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- What You'll Do -->
+<div class="section section-white fade-in">
+  <div class="s-label">Responsibilities</div>
+  <div class="s-title">你会做什么</div>
+  <ul class="resp-list">
+    <li><span class="num">1</span>设计和开发 <strong>C++ 低延迟交易执行系统</strong>，保障实盘稳定性</li>
+    <li><span class="num">2</span>负责行情数据接入与因子数据管道的质量保障与性能优化</li>
+    <li><span class="num">3</span>主导交易系统的<strong>架构设计与代码质量</strong>提升</li>
+    <li><span class="num">4</span>参与高频交易系统从模拟盘到实盘的落地</li>
+    <li><span class="num">5</span>远期参与神经网络模型在 C++ 层面的推理效率优化</li>
+  </ul>
+</div>
+
+<!-- Tech Stack -->
+<div class="section section-alt fade-in">
+  <div class="s-label">Requirements</div>
+  <div class="s-title">技术要求</div>
+
+  <div class="tech-group">
+    <div class="tech-label must">必须具备</div>
+    <div class="tags">
+      <span class="tag must">C++ 精通</span>
+      <span class="tag must">数据结构/算法</span>
+      <span class="tag must">生产级代码经验</span>
+    </div>
+  </div>
+
+  <div class="tech-group">
+    <div class="tech-label nice">优先考虑</div>
+    <div class="tags">
+      <span class="tag nice">低延迟交易系统</span>
+      <span class="tag nice">Crypto 交易所 API</span>
+      <span class="tag nice">CUDA / GPU 加速</span>
+      <span class="tag nice">Rust</span>
+    </div>
+  </div>
+
+  <div class="tech-group">
+    <div class="tech-label">加分项</div>
+    <div class="tags">
+      <span class="tag">ACM / 数学竞赛</span>
+      <span class="tag">Python 高性能编程</span>
+      <span class="tag">模型推理优化</span>
+    </div>
+  </div>
+</div>
+
+<!-- Compensation -->
+<div class="section section-white fade-in">
+  <div class="s-label">Compensation</div>
+  <div class="s-title">薪酬与成长</div>
+
+  <div class="comp-grid">
+    <div class="comp-item">
+      <div class="val">40–60W</div>
+      <div class="lbl">年薪（现金）</div>
+    </div>
+    <div class="comp-item">
+      <div class="val">期权</div>
+      <div class="lbl">早期核心成员</div>
+    </div>
+    <div class="comp-item">
+      <div class="val">奖金</div>
+      <div class="lbl">根据业务另行协商</div>
+    </div>
+    <div class="comp-item">
+      <div class="val">五险一金</div>
+      <div class="lbl">灵活工作方式</div>
+    </div>
+  </div>
+
+  <div class="comp-highlight">
+    <p>你将是这个方向的<strong>第一位核心员工</strong>，直接汇报创始人，未来成长为交易系统负责人。</p>
+  </div>
+</div>
+
+<!-- Interview -->
+<div class="section section-alt fade-in">
+  <div class="s-label">Interview</div>
+  <div class="s-title">面试流程</div>
+
+  <div class="interview-steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <h4>线上编程面</h4>
+        <p>共享屏幕做 C++ 编程题（中等难度），<strong>允许使用大模型辅助</strong></p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <h4>项目 & 匹配</h4>
+        <p>聊项目经历、技术偏好和团队方向契合度</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <h4>创始人终面</h4>
+        <p>轻松聊天，互相了解</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interview-note">
+    我们鼓励在面试中使用 AI 工具 — 考察的是解题思路和工程能力，不考死记硬背。
+  </div>
+</div>
+
+<!-- Why Join -->
+<div class="section section-white fade-in">
+  <div class="s-label">Why Join</div>
+  <div class="s-title">为什么加入</div>
+
+  <div class="why-list">
+    <div class="why-item">
+      <h4>前沿交叉领域</h4>
+      <p>大模型 × 量化交易，是 AI 落地最有商业价值的方向之一</p>
+    </div>
+    <div class="why-item">
+      <h4>创始员工身份</h4>
+      <p>第一位交易系统核心工程师，拥有完整的技术 Ownership</p>
+    </div>
+    <div class="why-item">
+      <h4>成长空间</h4>
+      <p>随公司资管规模增长，薪资、分红和期权价值将大幅提升</p>
+    </div>
+    <div class="why-item">
+      <h4>技术驱动文化</h4>
+      <p>全员技术背景，重代码能力不重 PPT。每周只开一次会</p>
+    </div>
+  </div>
+</div>
+
+<!-- Footer CTA -->
+<footer class="footer">
+  <div class="cta-label">感兴趣？</div>
+  <div class="cta-text">找猎头顾问聊聊吧！</div>
+  <div class="footer-note" id="contact-info" style="margin-top: 1rem;">
+    金融阶 —— 专注于量化金融科技领域的人才服务与组织发展
+  </div>
+</footer>
+
+<script>
+// Scroll fade-in
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
