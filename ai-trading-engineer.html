@@ -97,6 +97,13 @@
     .footer .cta-text { font-size: 0.82rem; font-weight: 600; color: var(--black); margin-bottom: 0.2rem; }
     .footer .brand { font-size: 0.6rem; color: var(--muted); }
 
+    /* ===== TEAM ===== */
+    .team-grid { display: flex; flex-direction: column; gap: 0.5rem; }
+    .team-card { display: flex; gap: 0.8rem; padding: 0.8rem; background: var(--bg); border-radius: var(--radius); align-items: flex-start; }
+    .team-role { font-family: var(--mono); font-size: 0.6rem; font-weight: 600; color: var(--blue); background: var(--blue-light); padding: 0.3rem 0.55rem; border-radius: var(--radius); flex-shrink: 0; min-width: 40px; text-align: center; }
+    .team-info h4 { font-size: 0.78rem; font-weight: 600; color: var(--black); margin-bottom: 0.1rem; }
+    .team-info p { font-size: 0.68rem; color: var(--body); line-height: 1.5; }
+
     /* ===== ANIMATION ===== */
     .fade-in { opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease, transform 0.4s ease; }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
@@ -126,15 +133,57 @@
     <div class="s-title">关于公司</div>
     <div class="about-text">
       <strong>"Claude Code + GitHub for Investing"</strong> — 一个让用户和AI Agent一起构建、运行、分享<strong>投资工作流</strong>的平台。<br><br>
-      创始团队来自<strong>Galxe</strong>（Web3头部增长平台），现在做的是AI投资赛道：覆盖美股+Crypto，从数据分析→策略设计→回测→实盘执行的完整链路。<br><br>
-      最新方向 <strong>Open某AI投资平台</strong> — 让外部AI Agent（Claude Code / Cursor）直接调用金融数据和回测引擎，做AI时代的<strong>金融运行时</strong>。
+      创始团队来自某<strong>Web3头部增长平台</strong>（数千万注册用户），现在做的是AI投资赛道：覆盖美股+Crypto，从数据分析→策略设计→回测→实盘执行的完整链路。<br><br>
+      最新方向 <strong>Open Platform</strong> — 让外部AI Agent（Claude Code / Cursor）直接调用金融数据和回测引擎，做AI时代的<strong>金融运行时</strong>。
     </div>
     <div class="product-chips">
-      <span class="chip">Open某AI投资平台</span>
+      <span class="chip">Open Platform</span>
       <span class="chip">Financial Runtime</span>
       <span class="chip">Skill Ecosystem</span>
       <span class="chip">Agent Friendly</span>
       <span class="chip">美股 + Crypto</span>
+    </div>
+  </div>
+
+  <!-- ===== FOUNDING TEAM ===== -->
+  <div class="section fade-in">
+    <div class="s-label">// Founding Team</div>
+    <div class="s-title">创始团队</div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-role">CEO</div>
+        <div class="team-info">
+          <h4>连续创业者</h4>
+          <p>多次创业经历，曾创立Web3头部增长平台（数千万注册用户），有完整的从0到1到规模化经验</p>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-role">CTO</div>
+        <div class="team-info">
+          <h4>微软研究院 + 头部互联网背景</h4>
+          <p>微软Azure/MSR 10+年工程经验，后在头部互联网公司负责核心产品技术</p>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-role">CSO</div>
+        <div class="team-info">
+          <h4>顶会NLP/ML研究者</h4>
+          <p>美国Top研究型大学背景，ICLR/ICML等顶会发表，负责AI算法与模型</p>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-role">联创</div>
+        <div class="team-info">
+          <h4>头部AI Lab联合创始人</h4>
+          <p>来自国内领先的前沿AI实验室，有大模型从0到1创业经验</p>
+        </div>
+      </div>
+      <div class="team-card" style="border-left: 2px solid var(--blue); background: var(--blue-light);">
+        <div class="team-info" style="padding-left: 0.2rem;">
+          <h4 style="font-size: 0.72rem;">团队背景</h4>
+          <p>核心成员来自顶级投行 · UC Berkeley · UPenn · UCLA · 北大等</p>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -241,10 +290,10 @@
       </div>
       <div class="why-item">
         <h4>高所有权 + 有意义的期权</h4>
-        <p>精英小团队，你的决策和代码直接影响产品方向。创始团队有成功项目经历（Galxe）</p>
+        <p>精英小团队，你的决策和代码直接影响产品方向。创始团队有成功项目经历</p>
       </div>
       <div class="why-item">
-        <h4>Open某AI投资平台 — 金融基础设施的新范式</h4>
+        <h4>Open Platform — 金融基础设施的新范式</h4>
         <p>你搭建的交易引擎会对外开放给所有AI Agent调用 — 不只是内部工具，而是金融开发者生态的基础设施</p>
       </div>
     </div>
