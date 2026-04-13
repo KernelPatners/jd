@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Content Creator (Remote) — AI投资平台</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --white: #ffffff;
+      --black: #202124;
+      --dark: #3c4043;
+      --body: #5f6368;
+      --muted: #9aa0a6;
+      --border: #e8eaed;
+      --blue: #1a73e8;
+      --blue-light: #e8f0fe;
+      --green: #1e8e3e;
+      --green-light: #e6f4ea;
+      --red: #d93025;
+      --red-light: #fce8e6;
+      --purple: #7b1fa2;
+      --purple-light: #f3e8fd;
+      --orange: #e8710a;
+      --orange-light: #fef3e0;
+      --mono: 'Roboto Mono', monospace;
+      --sans: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+      --shadow-sm: 0 1px 2px rgba(60, 64, 67, 0.1);
+      --shadow-md: 0 1px 3px rgba(60, 64, 67, 0.15), 0 1px 2px rgba(60, 64, 67, 0.1);
+      --radius: 8px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--body);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+
+    ::selection {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .header {
+      padding: 2rem 1.25rem 1.5rem;
+      background: var(--black);
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -20%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(232, 113, 10, 0.2) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .header-badge {
+      display: inline-block;
+      padding: 0.15rem 0.6rem;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: var(--orange);
+      background: rgba(232, 113, 10, 0.15);
+      border: 1px solid rgba(232, 113, 10, 0.3);
+      border-radius: 100px;
+      margin-bottom: 0.8rem;
+    }
+
+    .header h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.3;
+      margin-bottom: 0.3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header h1 span {
+      color: var(--orange);
+    }
+
+    .header .sub {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      position: relative;
+      z-index: 1;
+    }
+
+    .header .company-tag {
+      display: inline-block;
+      margin-top: 0.6rem;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.5px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .fact {
+      padding: 0.9rem 0.5rem;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+
+    .fact:last-child {
+      border-right: none;
+    }
+
+    .fact .val {
+      font-family: var(--mono);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .fact .lbl {
+      font-size: 0.6rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+      letter-spacing: 0.5px;
+    }
+
+    .section {
+      margin: 0.6rem 0.75rem;
+      padding: 1.25rem;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .s-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--orange);
+      letter-spacing: 1px;
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+    }
+
+    .s-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 0.8rem;
+    }
+
+    .about-text {
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: var(--dark);
+    }
+
+    .about-text strong {
+      color: var(--black);
+    }
+
+    .product-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.8rem;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.2rem 0.55rem;
+      font-size: 0.62rem;
+      font-weight: 500;
+      border-radius: 100px;
+      background: var(--orange-light);
+      color: var(--orange);
+      font-family: var(--mono);
+    }
+
+    .resp-list {
+      list-style: none;
+    }
+
+    .resp-list li {
+      font-size: 0.8rem;
+      color: var(--dark);
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.7;
+    }
+
+    .resp-list li:last-child {
+      border-bottom: none;
+    }
+
+    .resp-list li::before {
+      content: attr(data-num);
+      position: absolute;
+      left: 0;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--orange);
+    }
+
+    .tech-group {
+      margin-bottom: 1rem;
+    }
+
+    .tech-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .tech-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.4rem;
+    }
+
+    .tech-label.must {
+      color: var(--red);
+    }
+
+    .tech-label.nice {
+      color: var(--green);
+    }
+
+    .tech-label.bonus {
+      color: var(--blue);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.2rem 0.55rem;
+      font-size: 0.68rem;
+      font-weight: 500;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      color: var(--dark);
+      background: var(--bg);
+    }
+
+    .tag.must {
+      border-color: var(--red);
+      color: var(--red);
+      background: var(--red-light);
+    }
+
+    .tag.nice {
+      border-color: var(--green);
+      color: var(--green);
+      background: var(--green-light);
+    }
+
+    .tag.bonus {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: var(--blue-light);
+    }
+
+    .comp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .comp-item {
+      padding: 0.8rem;
+      background: var(--bg);
+      border-radius: var(--radius);
+    }
+
+    .comp-item .val {
+      font-family: var(--mono);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .comp-item .lbl {
+      font-size: 0.6rem;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+
+    .comp-highlight {
+      margin-top: 0.6rem;
+      padding: 0.65rem 0.8rem;
+      background: var(--orange-light);
+      border-radius: var(--radius);
+      font-size: 0.72rem;
+      color: var(--orange);
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .step {
+      display: flex;
+      gap: 0.8rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+
+    .step:last-child {
+      border-bottom: none;
+    }
+
+    .step-num {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--orange);
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--orange-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .step-content h4 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.1rem;
+    }
+
+    .step-content p {
+      font-size: 0.72rem;
+      color: var(--body);
+      line-height: 1.5;
+    }
+
+    .interview-note {
+      margin-top: 0.8rem;
+      padding: 0.6rem 0.8rem;
+      background: var(--green-light);
+      border-radius: var(--radius);
+      font-size: 0.72rem;
+      color: var(--green);
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    .why-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .why-item {
+      padding: 0.8rem;
+      background: var(--bg);
+      border-radius: var(--radius);
+      border-left: 3px solid var(--orange);
+    }
+
+    .why-item h4 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.15rem;
+    }
+
+    .why-item p {
+      font-size: 0.72rem;
+      color: var(--body);
+      line-height: 1.5;
+    }
+
+    .team-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .team-card {
+      display: flex;
+      gap: 0.8rem;
+      padding: 0.8rem;
+      background: var(--bg);
+      border-radius: var(--radius);
+      align-items: flex-start;
+    }
+
+    .team-role {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: var(--orange);
+      background: var(--orange-light);
+      padding: 0.3rem 0.55rem;
+      border-radius: var(--radius);
+      flex-shrink: 0;
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .team-info h4 {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.1rem;
+    }
+
+    .team-info p {
+      font-size: 0.68rem;
+      color: var(--body);
+      line-height: 1.5;
+    }
+
+    .footer {
+      padding: 1rem 1.25rem;
+      text-align: center;
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      margin-top: 0.6rem;
+    }
+
+    .footer .cta-text {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.2rem;
+    }
+
+    .footer .brand {
+      font-size: 0.6rem;
+      color: var(--muted);
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (min-width: 481px) {
+      body {
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="header-badge">● Hiring · Remote</div>
+    <h1><span>Content</span> Creator</h1>
+    <div class="sub">金融内容 · 全远程 · 美股 + Crypto</div>
+    <div class="company-tag">AI × Investing Platform — Serial Entrepreneurs</div>
+  </header>
+
+  <div class="facts">
+    <div class="fact">
+      <div class="val">Remote</div>
+      <div class="lbl">全球远程</div>
+    </div>
+    <div class="fact">
+      <div class="val">英文</div>
+      <div class="lbl">主要工作语言</div>
+    </div>
+    <div class="fact">
+      <div class="val">AI原生</div>
+      <div class="lbl">产品方向</div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="section fade-in">
+    <div class="s-label">// About</div>
+    <div class="s-title">关于公司</div>
+    <div class="about-text">
+      一家<strong>Quantamental投资平台</strong>，投资者可以在平台上构建、分享、Remix投资Playbook。<br><br>
+      覆盖从<strong>金融建模与可视化</strong>、量化策略构建、回测到<strong>实时Dashboard监控</strong>的完整链路 — <strong>无需编码</strong>。<br><br>
+      创始团队来自<strong>Web3头部增长平台</strong>（数千万用户）、<strong>国内领先AI
+        Lab</strong>、<strong>微软研究院</strong>及<strong>顶级投行</strong>，核心成员毕业于UC Berkeley、UPenn、北大等。
+    </div>
+    <div class="product-chips">
+      <span class="chip">Quantamental</span>
+      <span class="chip">Playbook</span>
+      <span class="chip">美股 + Crypto</span>
+      <span class="chip">AI Agent</span>
+      <span class="chip">No Code</span>
+    </div>
+  </div>
+
+  <!-- RESPONSIBILITIES -->
+  <div class="section fade-in">
+    <div class="s-label">// Responsibilities</div>
+    <div class="s-title">你会做什么</div>
+    <ul class="resp-list">
+      <li data-num="01"><strong>内容策略与创作</strong> — 策划、创作、发布高质量金融内容（Playbook、教程、框架），追踪市场热点快速产出有话题性的内容</li>
+      <li data-num="02"><strong>内容运营</strong> — 独立管理内容日历和社交发布pipeline，确保一致的质量和品牌调性</li>
+      <li data-num="03"><strong>跨团队协作</strong> — 与产品和增长团队合作，将产品更新转化为有传播力的故事和教育材料</li>
+      <li data-num="04"><strong>社区建设</strong> — 在社交媒体、博客、社区渠道发布内容，吸引创作者和投资者加入平台生态</li>
+    </ul>
+  </div>
+
+  <!-- REQUIREMENTS -->
+  <div class="section fade-in">
+    <div class="s-label">// Requirements</div>
+    <div class="s-title">候选人要求</div>
+    <div class="tech-group">
+      <div class="tech-label must">REQUIRED</div>
+      <div class="tags">
+        <span class="tag must">英文写作能力强</span>
+        <span class="tag must">金融市场认知</span>
+        <span class="tag must">高自驱力</span>
+        <span class="tag must">远程/异步适应</span>
+      </div>
+    </div>
+    <div class="tech-group">
+      <div class="tech-label nice">STRONG SIGNALS</div>
+      <div class="tags">
+        <span class="tag nice">美股/Crypto/宏观</span>
+        <span class="tag nice">内容→框架转化能力</span>
+        <span class="tag nice">数据可视化</span>
+        <span class="tag nice">AI工具使用</span>
+      </div>
+    </div>
+    <div class="tech-group">
+      <div class="tech-label bonus">BONUS</div>
+      <div class="tags">
+        <span class="tag bonus">内容营销经验</span>
+        <span class="tag bonus">金融媒体背景</span>
+        <span class="tag bonus">社区运营经验</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERVIEW -->
+  <div class="section fade-in">
+    <div class="s-label">// Interview</div>
+    <div class="s-title">面试流程</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>产品作业</h4>
+          <p>试用产品，基于平台Skills创建一个Playbook作为案例，并撰写一段内容驱动的增长策略</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Co-Founder 简历审阅</h4>
+          <p>同步将简历发送给联合创始人们审阅</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>正式面试</h4>
+          <p>基于作业成果和简历进行深度面谈</p>
+        </div>
+      </div>
+    </div>
+    <div class="interview-note">✅ 作业不是淘汰制 — 是让你提前体验产品，提交后HR会给反馈并支持你优化</div>
+  </div>
+
+  <!-- WHY JOIN -->
+  <div class="section fade-in">
+    <div class="s-label">// Why Join</div>
+    <div class="s-title">为什么加入</div>
+    <div class="why-list">
+      <div class="why-item">
+        <h4>定义AI投资内容的新范式</h4>
+        <p>不是写传统财经稿 — 你创作的Playbook直接帮投资者做研究和决策，内容即产品</p>
+      </div>
+      <div class="why-item">
+        <h4>全球远程 + 高自主权</h4>
+        <p>中国/美国均可，异步协作文化，以产出论贡献</p>
+      </div>
+      <div class="why-item">
+        <h4>连续创业团队 + AI-Native文化</h4>
+        <p>创始团队有数千万用户产品经历，技术团队深度拥抱AI工具</p>
+      </div>
+      <div class="why-item">
+        <h4>从0到1参与增长</h4>
+        <p>产品正在扩展创作者生态 — 你的内容策略直接影响平台增长曲线</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="cta-text">感兴趣？找猎头顾问了解更多</div>
+    <div class="brand">金融阶 —— 专注于量化金融科技领域的人才服务与组织发展</div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+  </script>
+</body>
+
+</html>

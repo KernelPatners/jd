@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AI Agent UI Designer — AI投资平台</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8f9fa; --white: #ffffff; --black: #202124; --dark: #3c4043;
+      --body: #5f6368; --muted: #9aa0a6; --border: #e8eaed;
+      --blue: #1a73e8; --blue-light: #e8f0fe;
+      --green: #1e8e3e; --green-light: #e6f4ea;
+      --red: #d93025; --red-light: #fce8e6;
+      --purple: #7b1fa2; --purple-light: #f3e8fd;
+      --mono: 'Roboto Mono', monospace;
+      --sans: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+      --shadow-sm: 0 1px 2px rgba(60,64,67,0.1);
+      --shadow-md: 0 1px 3px rgba(60,64,67,0.15), 0 1px 2px rgba(60,64,67,0.1);
+      --radius: 8px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--body); line-height: 1.7; -webkit-font-smoothing: antialiased; max-width: 480px; margin: 0 auto; min-height: 100vh; }
+    ::selection { background: var(--purple); color: #fff; }
+
+    .header { padding: 2rem 1.25rem 1.5rem; background: var(--black); color: var(--white); position: relative; overflow: hidden; }
+    .header::after { content: ''; position: absolute; top: -40%; right: -20%; width: 200px; height: 200px; background: radial-gradient(circle, rgba(123,31,162,0.2) 0%, transparent 70%); border-radius: 50%; }
+    .header-badge { display: inline-block; padding: 0.15rem 0.6rem; font-family: var(--mono); font-size: 0.55rem; font-weight: 500; letter-spacing: 1px; color: var(--purple); background: rgba(123,31,162,0.15); border: 1px solid rgba(123,31,162,0.3); border-radius: 100px; margin-bottom: 0.8rem; }
+    .header h1 { font-size: 1.4rem; font-weight: 700; color: var(--white); line-height: 1.3; margin-bottom: 0.3rem; position: relative; z-index: 1; }
+    .header h1 span { color: #ce93d8; }
+    .header .sub { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); position: relative; z-index: 1; }
+    .header .company-tag { display: inline-block; margin-top: 0.6rem; font-family: var(--mono); font-size: 0.6rem; color: rgba(255,255,255,0.5); letter-spacing: 0.5px; position: relative; z-index: 1; }
+
+    .facts { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--white); border-bottom: 1px solid var(--border); }
+    .fact { padding: 0.9rem 0.5rem; text-align: center; border-right: 1px solid var(--border); }
+    .fact:last-child { border-right: none; }
+    .fact .val { font-family: var(--mono); font-size: 1rem; font-weight: 600; color: var(--black); }
+    .fact .lbl { font-size: 0.6rem; color: var(--muted); margin-top: 0.15rem; letter-spacing: 0.5px; }
+
+    .section { margin: 0.6rem 0.75rem; padding: 1.25rem; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+    .s-label { font-family: var(--mono); font-size: 0.6rem; color: var(--purple); letter-spacing: 1px; margin-bottom: 0.4rem; font-weight: 500; }
+    .s-title { font-size: 1.05rem; font-weight: 700; color: var(--black); margin-bottom: 0.8rem; }
+    .about-text { font-size: 0.8rem; line-height: 1.8; color: var(--dark); }
+    .about-text strong { color: var(--black); }
+
+    .product-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.8rem; }
+    .chip { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.2rem 0.55rem; font-size: 0.62rem; font-weight: 500; border-radius: 100px; background: var(--purple-light); color: var(--purple); font-family: var(--mono); }
+
+    .resp-list { list-style: none; }
+    .resp-list li { font-size: 0.8rem; color: var(--dark); padding: 0.5rem 0; padding-left: 1.5rem; position: relative; border-bottom: 1px solid var(--border); line-height: 1.7; }
+    .resp-list li:last-child { border-bottom: none; }
+    .resp-list li::before { content: attr(data-num); position: absolute; left: 0; font-family: var(--mono); font-size: 0.7rem; font-weight: 600; color: var(--purple); }
+
+    .tech-group { margin-bottom: 1rem; }
+    .tech-group:last-child { margin-bottom: 0; }
+    .tech-label { font-family: var(--mono); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 0.4rem; }
+    .tech-label.must { color: var(--red); }
+    .tech-label.nice { color: var(--green); }
+    .tech-label.bonus { color: var(--blue); }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .tag { display: inline-block; padding: 0.2rem 0.55rem; font-size: 0.68rem; font-weight: 500; border-radius: 100px; border: 1px solid var(--border); color: var(--dark); background: var(--bg); }
+    .tag.must { border-color: var(--red); color: var(--red); background: var(--red-light); }
+    .tag.nice { border-color: var(--green); color: var(--green); background: var(--green-light); }
+    .tag.bonus { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+
+    .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .comp-item { padding: 0.8rem; background: var(--bg); border-radius: var(--radius); }
+    .comp-item .val { font-family: var(--mono); font-size: 1rem; font-weight: 600; color: var(--black); }
+    .comp-item .lbl { font-size: 0.6rem; color: var(--muted); margin-top: 0.1rem; }
+    .comp-highlight { margin-top: 0.6rem; padding: 0.65rem 0.8rem; background: var(--purple-light); border-radius: var(--radius); font-size: 0.72rem; color: var(--purple); line-height: 1.5; font-weight: 500; }
+
+    .why-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .why-item { padding: 0.8rem; background: var(--bg); border-radius: var(--radius); border-left: 3px solid var(--purple); }
+    .why-item h4 { font-size: 0.8rem; font-weight: 600; color: var(--black); margin-bottom: 0.15rem; }
+    .why-item p { font-size: 0.72rem; color: var(--body); line-height: 1.5; }
+
+    .team-grid { display: flex; flex-direction: column; gap: 0.5rem; }
+    .team-card { display: flex; gap: 0.8rem; padding: 0.8rem; background: var(--bg); border-radius: var(--radius); align-items: flex-start; }
+    .team-role { font-family: var(--mono); font-size: 0.6rem; font-weight: 600; color: var(--purple); background: var(--purple-light); padding: 0.3rem 0.55rem; border-radius: var(--radius); flex-shrink: 0; min-width: 40px; text-align: center; }
+    .team-info h4 { font-size: 0.78rem; font-weight: 600; color: var(--black); margin-bottom: 0.1rem; }
+    .team-info p { font-size: 0.68rem; color: var(--body); line-height: 1.5; }
+
+    .callout { margin-top: 0.8rem; padding: 0.7rem 0.9rem; background: var(--purple-light); border-radius: var(--radius); border-left: 3px solid var(--purple); }
+    .callout p { font-size: 0.75rem; color: var(--purple); line-height: 1.6; font-weight: 500; }
+
+    .footer { padding: 1rem 1.25rem; text-align: center; background: var(--white); border-top: 1px solid var(--border); margin-top: 0.6rem; }
+    .footer .cta-text { font-size: 0.82rem; font-weight: 600; color: var(--black); margin-bottom: 0.2rem; }
+    .footer .brand { font-size: 0.6rem; color: var(--muted); }
+
+    .fade-in { opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease, transform 0.4s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    @media (min-width: 481px) { body { border-left: 1px solid var(--border); border-right: 1px solid var(--border); } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-badge">● Hiring · Shanghai</div>
+    <h1><span>AI Agent</span> UI Designer</h1>
+    <div class="sub">设计 × 工程 · 上海 · C端AI金融产品</div>
+    <div class="company-tag">AI × Investing Platform — Serial Entrepreneurs</div>
+  </header>
+
+  <div class="facts">
+    <div class="fact"><div class="val">50-75W</div><div class="lbl">年薪</div></div>
+    <div class="fact"><div class="val">上海</div><div class="lbl">工作地点</div></div>
+    <div class="fact"><div class="val">AI原生</div><div class="lbl">产品方向</div></div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="section fade-in">
+    <div class="s-label">// About</div>
+    <div class="s-title">关于公司</div>
+    <div class="about-text">
+      一家<strong>AI驱动的金融投资与交易产品</strong>，帮助投资者用Agent完成研究、分析和交易决策。<br><br>
+      产品覆盖<strong>投研Dashboard、策略回测、行情可视化、Agent对话与任务流</strong>等核心场景。你将定义它的视觉语言。<br><br>
+      创始团队来自<strong>Web3头部增长平台</strong>（数千万用户）、<strong>国内领先AI Lab</strong>、<strong>微软研究院</strong>及<strong>顶级投行</strong>，核心成员毕业于UC Berkeley、UPenn、北大等。
+    </div>
+    <div class="product-chips">
+      <span class="chip">AI Agent</span>
+      <span class="chip">投研可视化</span>
+      <span class="chip">C端金融</span>
+      <span class="chip">Playbook</span>
+      <span class="chip">美股 + Crypto</span>
+    </div>
+  </div>
+
+  <!-- POSITIONING -->
+  <div class="section fade-in">
+    <div class="s-label">// Positioning</div>
+    <div class="s-title">岗位定位</div>
+    <div class="about-text">
+      <strong>不是传统UI设计师。</strong><br><br>
+      我们要的人有<strong>强审美判断力</strong>，同时能用AI工具把设计<strong>直接变成可运行的页面</strong> —— 在设计与工程之间自由切换。
+    </div>
+    <div class="callout">
+      <p>🎯 审美风格参考：月之暗面（Kimi）设计团队 —— 克制、专业、有质感</p>
+    </div>
+  </div>
+
+  <!-- RESPONSIBILITIES -->
+  <div class="section fade-in">
+    <div class="s-label">// Responsibilities</div>
+    <div class="s-title">你会做什么</div>
+    <ul class="resp-list">
+      <li data-num="01"><strong>主导核心功能的UI与视觉设计</strong> — 从信息架构到像素细节全程负责：投研Dashboard、策略回测、Agent对话流</li>
+      <li data-num="02"><strong>定义产品的视觉风格与品牌调性</strong> — 确保金融场景下的专业感与易用性</li>
+      <li data-num="03"><strong>用AI工具Ship前端代码</strong> — 将设计稿通过Cursor / Claude Code等工具转化为可运行的页面</li>
+      <li data-num="04"><strong>与产品、工程紧密协作</strong> — 确保设计落地不失真</li>
+    </ul>
+  </div>
+
+  <!-- REQUIREMENTS -->
+  <div class="section fade-in">
+    <div class="s-label">// Requirements</div>
+    <div class="s-title">候选人要求</div>
+    <div class="tech-group">
+      <div class="tech-label must">REQUIRED — 审美与判断力</div>
+      <div class="tags">
+        <span class="tag must">Portfolio有个人风格</span>
+        <span class="tag must">AI产品交互评审能力</span>
+        <span class="tag must">C端情绪设计</span>
+        <span class="tag must">视觉细节敏感</span>
+      </div>
+    </div>
+    <div class="tech-group">
+      <div class="tech-label must">REQUIRED — AI工具实操</div>
+      <div class="tags">
+        <span class="tag must">Cursor / Claude Code</span>
+        <span class="tag must">Figma AI</span>
+        <span class="tag must">AI工具→可运行页面</span>
+        <span class="tag must">AI产品重度用户</span>
+      </div>
+    </div>
+    <div class="tech-group">
+      <div class="tech-label nice">STRONG SIGNALS</div>
+      <div class="tags">
+        <span class="tag nice">英文读写熟练</span>
+        <span class="tag nice">Agent交互设计思考</span>
+        <span class="tag nice">多步骤任务流设计</span>
+      </div>
+    </div>
+    <div class="tech-group">
+      <div class="tech-label bonus">BONUS</div>
+      <div class="tags">
+        <span class="tag bonus">金融/投资好奇心</span>
+        <span class="tag bonus">0→1产品经历</span>
+        <span class="tag bonus">失败状态设计思考</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPENSATION -->
+  <div class="section fade-in">
+    <div class="s-label">// Compensation</div>
+    <div class="s-title">薪酬与福利</div>
+    <div class="comp-grid">
+      <div class="comp-item"><div class="val">50-75W</div><div class="lbl">年薪</div></div>
+      <div class="comp-item"><div class="val">期权</div><div class="lbl">Meaningful Equity</div></div>
+      <div class="comp-item"><div class="val">包三餐</div><div class="lbl">上海Office</div></div>
+      <div class="comp-item"><div class="val">高自主权</div><div class="lbl">精英小团队</div></div>
+    </div>
+    <div class="comp-highlight">💡 试用期6个月工资无折扣 · MacBook+显示屏+升降桌 · 年度体检+商业保险</div>
+  </div>
+
+  <!-- WHY JOIN -->
+  <div class="section fade-in">
+    <div class="s-label">// Why Join</div>
+    <div class="s-title">为什么加入</div>
+    <div class="why-list">
+      <div class="why-item">
+        <h4>定义AI金融产品的视觉语言</h4>
+        <p>不是画稿交给开发 — 你直接Ship。投研Dashboard、Agent对话流、策略回测，每一个像素都是你的决定</p>
+      </div>
+      <div class="why-item">
+        <h4>设计 × 工程的新物种</h4>
+        <p>用Cursor + Claude Code把设计变成代码 — 在这个团队，设计师不等排期，自己把想法跑起来</p>
+      </div>
+      <div class="why-item">
+        <h4>AI-Native的产品和团队</h4>
+        <p>产品本身就是AI Agent平台，团队深度使用AI工具。你做的不是给AI画一层皮，而是设计人与Agent协作的全新交互范式</p>
+      </div>
+      <div class="why-item">
+        <h4>连续创业团队 + 有意义的期权</h4>
+        <p>创始团队有数千万用户产品经历 + 国内头部AI Lab联创背景。精英小团队，高所有权</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="cta-text">感兴趣？找猎头顾问了解更多</div>
+    <div class="brand">金融阶 —— 专注于量化金融科技领域的人才服务与组织发展</div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
