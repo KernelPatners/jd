@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>人选画像 — 李鸿列 | C++高频量化开发</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* === RESET & VIEWPORT BASE === */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Manrope','Noto Sans SC',sans-serif;overflow:hidden}
+
+/* === DESIGN TOKENS — Navy + Gold === */
+:root{
+  --bg-dark:#0a1628;--bg-white:#ffffff;--bg-off:#f7f8fa;
+  --accent:#c5985e;--accent-light:#d4ad72;--accent-dark:#a07a45;
+  --navy:#0a1628;--navy-mid:#162a4a;--navy-light:#1e3a5f;
+  --text-dark:#1a202c;--text-light:#ffffff;--text-muted:#4a5568;--text-subtle:#8a94a6;
+  --border:#dde1e8;--border-dark:rgba(255,255,255,.1);
+  --red:#e53e3e;--red-bg:rgba(229,62,62,.08);--red-border:rgba(229,62,62,.2);
+  --green:#38a169;--green-bg:rgba(56,161,105,.08);
+  --title:clamp(1.6rem,4.5vw,3rem);--h2:clamp(1.2rem,3vw,2rem);--h3:clamp(1rem,2vw,1.3rem);
+  --body:clamp(0.75rem,1.4vw,1rem);--small:clamp(0.65rem,1vw,0.85rem);
+  --pad:clamp(1.5rem,4vw,4rem);--gap:clamp(0.5rem,1.5vw,1.5rem);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+/* === SLIDE BASE === */
+.slide{position:fixed;top:0;left:0;width:100vw;height:100vh;height:100dvh;overflow-y:auto;
+  display:flex;flex-direction:column;
+  opacity:0;visibility:hidden;transform:scale(1.02);
+  transition:opacity .8s cubic-bezier(.4,0,.2,1),transform .8s cubic-bezier(.4,0,.2,1),visibility 0s .8s;
+  z-index:1}
+.slide.active{opacity:1;visibility:visible;transform:scale(1);
+  transition:opacity .8s cubic-bezier(.4,0,.2,1),transform .8s cubic-bezier(.4,0,.2,1),visibility 0s 0s;z-index:10}
+.slide-dark{background:var(--bg-dark);color:var(--text-light)}
+.slide-white{background:var(--bg-white);color:var(--text-dark)}
+.slide-off{background:var(--bg-off);color:var(--text-dark)}
+.sc{padding:var(--pad);flex:1;display:flex;flex-direction:column;justify-content:center;overflow-y:auto}
+
+/* === GRADIENT MESH BACKGROUNDS === */
+.slide-dark::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 20% 80%,rgba(197,152,94,.08) 0%,transparent 50%),
+  radial-gradient(ellipse at 80% 20%,rgba(30,58,95,.4) 0%,transparent 50%),
+  radial-gradient(ellipse at 50% 0%,rgba(22,42,74,.6) 0%,transparent 60%);
+  pointer-events:none;z-index:0}
+.slide-dark>*{position:relative;z-index:1}
+.slide-dark::after{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
+  background-size:60px 60px;pointer-events:none;z-index:0}
+
+/* === TYPOGRAPHY === */
+.eyebrow{font-size:var(--small);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:clamp(4px,1vh,10px)}
+.slide-dark .eyebrow{color:var(--accent-light)}
+h1,.title{font-size:var(--title);font-weight:800;line-height:1.15;margin-bottom:clamp(8px,1.5vh,16px)}
+h2,.h2{font-size:var(--h2);font-weight:700;line-height:1.3;margin-bottom:clamp(6px,1vh,14px)}
+h3,.h3{font-size:var(--h3);font-weight:600;line-height:1.4;margin-bottom:clamp(4px,.8vh,10px)}
+.body{font-size:var(--body);line-height:1.65;color:var(--text-muted)}
+.slide-dark .body{color:rgba(255,255,255,.6)}
+.bar{width:40px;height:4px;background:var(--accent);border-radius:2px;margin:clamp(6px,1vh,12px) 0}
+.slide-dark .bar{background:var(--accent-light)}
+
+/* === CARDS === */
+.cards{display:grid;gap:var(--gap);margin-top:clamp(8px,2vh,20px)}
+.c2{grid-template-columns:1fr 1fr}.c3{grid-template-columns:1fr 1fr 1fr}.c4{grid-template-columns:1fr 1fr 1fr 1fr}
+.card{background:var(--bg-white);border-radius:10px;padding:clamp(10px,1.5vh,18px) clamp(12px,1.5vw,20px);border:1px solid var(--border);transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+.slide-dark .card{background:rgba(255,255,255,.05);border-color:var(--border-dark)}
+.slide-dark .card:hover{box-shadow:0 12px 40px rgba(197,152,94,.1)}
+.card-top{border-top:3px solid var(--accent);position:relative;overflow:hidden}
+.card-top::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-light),var(--accent));
+  background-size:200% 100%;animation:shimmer 3s ease-in-out infinite}
+.card-val{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;color:var(--navy);line-height:1;transition:all .6s var(--ease)}
+.slide-dark .card-val{color:var(--accent-light)}
+.slide.active .card-val{animation:countUp .8s var(--ease) both}
+.card-label{font-size:var(--small);color:var(--text-subtle);margin-top:4px;font-weight:500}
+.card-desc{font-size:var(--small);color:var(--text-muted);margin-top:6px;line-height:1.5}
+.slide-dark .card-desc{color:rgba(255,255,255,.5)}
+
+/* === TABLES === */
+.tb{width:100%;border-collapse:collapse;font-size:var(--small);margin-top:clamp(4px,1vh,10px)}
+.tb th{background:var(--navy);color:#fff;padding:clamp(4px,.7vh,8px) clamp(6px,1vw,10px);text-align:left;font-weight:600;font-size:clamp(0.6rem,.9vw,.75rem)}
+.tb td{padding:clamp(4px,.7vh,8px) clamp(6px,1vw,10px);border-bottom:1px solid var(--border);vertical-align:top}
+.tb tr:nth-child(even) td{background:var(--bg-off)}
+.slide-dark .tb th{background:rgba(255,255,255,.12)}
+.slide-dark .tb td{border-color:var(--border-dark);color:rgba(255,255,255,.8)}
+.slide-dark .tb tr:nth-child(even) td{background:rgba(255,255,255,.03)}
+
+/* === INSIGHT BOX === */
+.insight{background:linear-gradient(135deg,var(--bg-dark),var(--navy-mid));color:#fff;padding:clamp(8px,1.2vh,14px) clamp(10px,1.5vw,18px);border-radius:8px;margin-top:clamp(8px,1.5vh,16px);font-size:var(--small);line-height:1.6;border-left:4px solid var(--accent)}
+.slide-dark .insight{background:rgba(255,255,255,.06);border-left-color:var(--accent-light)}
+
+/* === TAGS === */
+.tag{display:inline-block;padding:3px 12px;border-radius:20px;font-size:clamp(0.6rem,.85vw,.72rem);font-weight:600;margin:2px 3px 2px 0}
+.tag-g{background:rgba(197,152,94,.12);color:var(--accent-dark)}
+.tag-b{background:rgba(10,22,40,.08);color:var(--navy)}
+.tag-r{background:var(--red-bg);color:var(--red)}
+.tag-green{background:var(--green-bg);color:var(--green)}
+.slide-dark .tag-g{background:rgba(197,152,94,.15);color:var(--accent-light)}
+.slide-dark .tag-b{background:rgba(255,255,255,.08);color:rgba(255,255,255,.8)}
+
+/* === LISTS === */
+.sl{list-style:none;padding:0;margin:clamp(4px,1vh,10px) 0}
+.sl li{padding:clamp(4px,.6vh,8px) 0 clamp(4px,.6vh,8px) 16px;position:relative;font-size:var(--small);color:var(--text-muted);line-height:1.5;border-bottom:1px solid var(--border)}
+.sl li::before{content:'';position:absolute;left:0;top:clamp(8px,1.2vh,14px);width:6px;height:6px;background:var(--accent);border-radius:2px}
+.slide-dark .sl li{color:rgba(255,255,255,.7);border-color:var(--border-dark)}
+.sl li:last-child{border-bottom:none}
+
+/* === ALERT BOXES === */
+.alert-danger{background:var(--red-bg);border:1px solid var(--red-border);border-radius:8px;padding:clamp(8px,1.2vh,14px) clamp(10px,1.5vw,18px);margin-top:clamp(6px,1vh,12px);font-size:var(--small);line-height:1.6;color:var(--red)}
+.slide-dark .alert-danger{background:rgba(229,62,62,.1);border-color:rgba(229,62,62,.25);color:#fc8181}
+
+/* === TIMELINE === */
+.timeline{border-left:3px solid var(--accent);padding-left:clamp(12px,2vw,20px);margin:clamp(8px,1.5vh,14px) 0}
+.tl-item{padding:clamp(4px,.6vh,6px) 0;position:relative;font-size:var(--small)}
+.tl-item::before{content:'';position:absolute;left:calc(-1 * clamp(12px,2vw,20px) - 5.5px);top:clamp(8px,1vh,12px);width:8px;height:8px;background:var(--accent);border-radius:50%;border:2px solid var(--bg-white)}
+.slide-dark .tl-item::before{border-color:var(--bg-dark)}
+.tl-title{font-weight:700;color:var(--text-dark)}.slide-dark .tl-title{color:var(--text-light)}
+.tl-meta{color:var(--text-subtle);margin-top:2px}.slide-dark .tl-meta{color:rgba(255,255,255,.4)}
+.tl-current::before{background:var(--accent);box-shadow:0 0 0 4px rgba(197,152,94,.3);animation:dotPulse 2s infinite}
+
+/* === COLS === */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,2vw,24px);margin-top:clamp(6px,1vh,14px)}
+
+/* === FOOTER === */
+.sf{position:absolute;bottom:clamp(8px,1.5vh,14px);left:var(--pad);right:var(--pad);display:flex;justify-content:space-between;font-size:clamp(0.5rem,.7vw,.65rem);color:var(--text-subtle);letter-spacing:.5px;z-index:2}
+.slide-dark .sf{color:rgba(255,255,255,.25)}
+
+/* === PROGRESS BAR === */
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-light));z-index:200;transition:width .5s var(--ease);box-shadow:0 0 10px rgba(197,152,94,.3)}
+
+/* === NAV DOTS === */
+.nav-dots{position:fixed;right:clamp(12px,2vw,24px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:100}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .3s var(--ease);border:1px solid rgba(255,255,255,.1)}
+.nav-dot:hover{background:var(--accent);transform:scale(1.5);border-color:var(--accent)}
+.nav-dot.active{background:var(--accent);transform:scale(1.4);animation:dotPulse 2s ease-in-out infinite;border-color:var(--accent)}
+.nav-dot.light{background:rgba(0,0,0,.12);border-color:rgba(0,0,0,.06)}
+.nav-dot.light:hover,.nav-dot.light.active{background:var(--accent);border-color:var(--accent)}
+
+/* === SLIDE COUNTER === */
+.slide-counter{position:fixed;bottom:clamp(14px,2vh,22px);right:clamp(14px,2vw,28px);font-size:clamp(0.65rem,1vw,.8rem);font-weight:600;color:rgba(255,255,255,.35);letter-spacing:2px;z-index:100;font-variant-numeric:tabular-nums;transition:color .5s}
+.slide-counter.light{color:rgba(0,0,0,.25)}
+
+/* === KEYBOARD HINT === */
+.kb-hint{position:fixed;bottom:clamp(14px,2vh,22px);left:50%;transform:translateX(-50%);font-size:clamp(0.6rem,.85vw,.72rem);
+  color:rgba(255,255,255,.5);background:rgba(255,255,255,.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  padding:8px 20px;border-radius:24px;z-index:100;transition:opacity 1.2s ease;border:1px solid rgba(255,255,255,.08)}
+
+/* === ENTRANCE ANIMATIONS === */
+.reveal-up{opacity:0;transform:translateY(35px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal-scale{opacity:0;transform:scale(.88);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.reveal-right{opacity:0;transform:translateX(40px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.slide.active .reveal-up,.slide.active .reveal-scale,.slide.active .reveal-left,.slide.active .reveal-right{opacity:1;transform:none}
+
+/* Stagger delays */
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}.d6{transition-delay:.6s}
+
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes countUp{from{opacity:0;transform:translateY(20px) scale(.8)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes dotPulse{0%,100%{box-shadow:0 0 0 0 rgba(197,152,94,.4)}50%{box-shadow:0 0 0 6px rgba(197,152,94,0)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+
+/* === RESPONSIVE === */
+@media(max-width:768px){
+  .c2,.c3,.c4,.cols{grid-template-columns:1fr}
+  .nav-dots{right:6px;gap:5px}.nav-dot{width:6px;height:6px}
+  .tb{font-size:clamp(0.55rem,.8vw,.7rem)}
+}
+@media(max-width:480px){
+  :root{--pad:clamp(1rem,3vw,1.5rem)}
+  .tag{font-size:clamp(0.5rem,.7vw,.6rem);padding:2px 6px}
+}
+@media(max-height:600px){
+  .sf,.kb-hint{display:none}
+  .nav-dot{width:5px;height:5px}.nav-dots{gap:3px}
+}
+@media(prefers-reduced-motion:reduce){
+  .slide{transition:opacity .2s,visibility 0s!important}
+  *,*::before,*::after{animation-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== SLIDE 0: COVER ===== -->
+<div class="slide slide-dark">
+  <div class="sc" style="text-align:center;align-items:center">
+    <div class="eyebrow" style="animation:fadeSlideUp .8s var(--ease) both">人选画像 · CANDIDATE PROFILE</div>
+    <h1 style="max-width:600px;animation:fadeSlideUp .8s var(--ease) .15s both">李鸿列</h1>
+    <div class="bar" style="margin:clamp(10px,2vh,20px) auto;animation:fadeSlideUp .8s var(--ease) .3s both"></div>
+    <p class="body" style="max-width:500px;text-align:center;animation:fadeSlideUp .8s var(--ease) .4s both">
+      C++高频量化开发 · 深耕期权方向<br>华钧广汇 · 高频期权组
+    </p>
+    <div style="margin-top:clamp(16px,3vh,32px);display:flex;flex-wrap:wrap;gap:6px;justify-content:center;animation:fadeSlideUp .8s var(--ease) .55s both">
+      <span class="tag tag-g">FPGA自研行情</span>
+      <span class="tag tag-g">AVX-512向量化</span>
+      <span class="tag tag-g">期权业务全栈</span>
+      <span class="tag tag-g">全市场7交易所</span>
+      <span class="tag tag-g">城堡基金PM背书</span>
+    </div>
+    <div style="margin-top:clamp(20px,4vh,40px);font-size:var(--small);color:rgba(255,255,255,.3);animation:fadeSlideUp .8s var(--ease) .7s both">
+      内部交接材料 · CONFIDENTIAL
+    </div>
+  </div>
+  <div class="sf"><span>CONFIDENTIAL</span><span>金融阶</span></div>
+</div>
+
+<!-- ===== SLIDE 1: 10秒速览 ===== -->
+<div class="slide slide-white">
+  <div class="sc">
+    <div class="eyebrow reveal-up">QUICK OVERVIEW</div>
+    <h2 class="reveal-up d1">⚡ 10秒速览</h2>
+    <div class="bar reveal-up d2"></div>
+    <div class="cards c4 reveal-up d3">
+      <div class="card card-top">
+        <div class="card-val">22岁</div>
+        <div class="card-label">年龄</div>
+        <div class="card-desc">2025应届 · 南科大双一流</div>
+      </div>
+      <div class="card card-top">
+        <div class="card-val">~1年</div>
+        <div class="card-label">正式工作</div>
+        <div class="card-desc">+2年高质量实习</div>
+      </div>
+      <div class="card card-top">
+        <div class="card-val" style="font-size:clamp(1rem,2.5vw,1.6rem)">高频C++</div>
+        <div class="card-label">核心定位</div>
+        <div class="card-desc">期权/期货方向均可</div>
+      </div>
+      <div class="card card-top">
+        <div class="card-val" style="color:var(--red)">🔥 高</div>
+        <div class="card-label">求职紧迫度</div>
+        <div class="card-desc">强烈渴望离开</div>
+      </div>
+    </div>
+
+    <table class="tb reveal-up d4" style="margin-top:clamp(12px,2vh,20px)">
+      <tr><th>字段</th><th>信息</th></tr>
+      <tr><td><strong>电话</strong></td><td>(+86) 176-3102-1213</td></tr>
+      <tr><td><strong>邮箱</strong></td><td>honglie.li@outlook.com</td></tr>
+      <tr><td><strong>求职方向</strong></td><td>C++量化开发 / 高频交易开发（期权/期货，不限标的）</td></tr>
+      <tr><td><strong>城市偏好</strong></td><td>上海 > 深圳 ❌ 北京不考虑</td></tr>
+      <tr><td><strong>风格偏好</strong></td><td>外资/类外资风格优先</td></tr>
+      <tr><td><strong>沟通时段</strong></td><td>中午 / 下午盘后</td></tr>
+    </table>
+  </div>
+  <div class="sf"><span>人选画像 · 李鸿列</span><span>CONFIDENTIAL</span></div>
+</div>
+
+<!-- ===== SLIDE 2: 教育 + 获奖 ===== -->
+<div class="slide slide-off">
+  <div class="sc">
+    <div class="eyebrow reveal-up">EDUCATION & AWARDS</div>
+    <h2 class="reveal-up d1">教育背景 & 超算竞赛</h2>
+    <div class="bar reveal-up d2"></div>
+    <div class="cols">
+      <div class="reveal-left d3">
+        <h3>🎓 教育背景</h3>
+        <div class="card card-top">
+          <div style="font-weight:700;font-size:var(--body)">南方科技大学</div>
+          <div style="font-size:var(--small);color:var(--text-muted);margin-top:4px">计算机科学与工程系 · 计算机科学与技术</div>
+          <div style="font-size:var(--small);color:var(--text-subtle);margin-top:4px">2021.09 – 2025.06 · 工学学士（统招）</div>
+          <div style="margin-top:8px">
+            <span class="tag tag-g">双一流</span>
+            <span class="tag tag-b">统招全日制</span>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right d4">
+        <h3>🏆 超算竞赛（HPC）</h3>
+        <table class="tb">
+          <tr><th>时间</th><th>赛事</th><th>成绩</th></tr>
+          <tr><td>2022.02</td><td>ASC2022</td><td>二等奖</td></tr>
+          <tr><td>2023.11</td><td>APAC HPC-AI 2023</td><td style="color:var(--accent);font-weight:700">🥈 亚军</td></tr>
+          <tr><td>2024.02</td><td>ASC2024</td><td>二等奖</td></tr>
+          <tr><td>2024.05</td><td>ISC High Performance</td><td style="color:var(--accent);font-weight:700">🌍 全球第十</td></tr>
+          <tr><td>2024.11</td><td>APAC HPC-AI 2024</td><td style="color:var(--accent);font-weight:700">🥉 季军</td></tr>
+        </table>
+        <div class="insight" style="margin-top:clamp(6px,1vh,10px)">
+          <strong>解读：</strong>近2年密集参加全球顶级超算比赛，SIMD/分布式计算的实战基础极为扎实
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sf"><span>人选画像 · 李鸿列</span><span>CONFIDENTIAL</span></div>
+</div>
+
+<!-- ===== SLIDE 3: 华钧广汇 · 7大板块 ===== -->
+<div class="slide slide-dark">
+  <div class="sc">
+    <div class="eyebrow reveal-up">CORE EXPERIENCE</div>
+    <h2 class="reveal-up d1">华钧广汇 · 高频期权组 <span style="font-size:var(--small);font-weight:400;color:var(--accent-light)">(2025.02 – 至今)</span></h2>
+    <div class="bar reveal-up d2"></div>
+    <div style="font-size:var(--small);color:rgba(255,255,255,.5);margin-bottom:clamp(6px,1vh,12px)" class="reveal-up d2">
+      公司约70人 · 仅1个期权组（2 Dev + 3 Trader） · PM 来自城堡基金(Citadel)期权组 · 他是组内核心开发
+    </div>
+    <div class="cards c3 reveal-up d3" style="font-size:var(--small)">
+      <div class="card card-top">
+        <div style="font-weight:700;color:var(--accent-light);margin-bottom:4px">① 柜台对接</div>
+        <div class="card-desc">对接易达/盛立高速柜台<br>实现ETF期权<strong>自动组合保证金</strong><br>⚡ 他入职前公司未覆盖GFEX/DCE</div>
+      </div>
+      <div class="card card-top">
+        <div style="font-weight:700;color:var(--accent-light);margin-bottom:4px">② FPGA行情接入</div>
+        <div class="card-desc">基于ExaNIC X25<br>🔴 <strong style="color:#fc8181">关键：公司自研驱动</strong><br>非外采第三方（简历未明写）</div>
+      </div>
+      <div class="card card-top">
+        <div style="font-weight:700;color:var(--accent-light);margin-bottom:4px">③ 全市场行情研究</div>
+        <div class="card-desc">覆盖<strong>全部7家交易所</strong>期权<br>研究微观行情规律<br>做针对性提速优化</div>
+      </div>
+      <div class="card card-top">
+        <div style="font-weight:700;color:var(--accent-light);margin-bottom:4px">④ 策略SDK</div>
+        <div class="card-desc"><strong>整个期权策略SDK</strong>都是他开发维护<br>多个实盘交易策略<br>花时间最多的板块</div>
+      </div>
+      <div class="card card-top">
+        <div style="font-weight:700;color:var(--accent-light);margin-bottom:4px">⑤ 定价模型 AVX-512</div>
+        <div class="card-desc">BS模型+全量Greeks<br><strong>深度向量化</strong>，数倍性能提升<br>⚡ 两段SIMD经验叠加</div>
+      </div>
+      <div class="card card-top">
+        <div style="font-weight:700;color:var(--accent-light);margin-bottom:4px">⑥⑦ 基建 & 自动化</div>
+        <div class="card-desc">C++ Parquet替代CSV<br>Polars加速盘前盘后脚本<br>高性能回测基建搭建</div>
+      </div>
+    </div>
+  </div>
+  <div class="sf"><span>人选画像 · 李鸿列</span><span>CONFIDENTIAL</span></div>
+</div>
+
+<!-- ===== SLIDE 4: 实习经历 + 时间线 ===== -->
+<div class="slide slide-white">
+  <div class="sc">
+    <div class="eyebrow reveal-up">CAREER TIMELINE</div>
+    <h2 class="reveal-up d1">职业时间线</h2>
+    <div class="bar reveal-up d2"></div>
+    <div class="cols">
+      <div class="reveal-left d3">
+        <div class="timeline">
+          <div class="tl-item tl-current">
+            <div class="tl-title">🔥 华钧广汇 · 高频期权组 QD</div>
+            <div class="tl-meta">2025.02 – 至今 · ~14个月（含实习）</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-title">招商局狮子山 AI Lab · AI Infra</div>
+            <div class="tl-meta">2024.08 – 2025.01 · 6个月实习</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-title">AristeiaAI · 高频期权组 QD</div>
+            <div class="tl-meta">2024.03 – 2024.07 · 5个月实习</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-title">仲阳天王星 · 高性能计算组 QD</div>
+            <div class="tl-meta">2023.09 – 2024.01 · 5个月实习</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-title">南方科技大学 · 本科</div>
+            <div class="tl-meta">2021.09 – 2025.06 · 4年</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right d4">
+        <h3>实习亮点</h3>
+        <div class="card" style="margin-bottom:var(--gap)">
+          <div style="font-weight:600;font-size:var(--small)">🏢 招商局狮子山 AI Lab</div>
+          <div class="card-desc">SPDK替换Pytorch c10d的TCPStore<br>优化Checkpoint传输，减少训练暂停</div>
+        </div>
+        <div class="card" style="margin-bottom:var(--gap)">
+          <div style="font-weight:600;font-size:var(--small)">🏢 AristeiaAI 高频期权组</div>
+          <div class="card-desc">重构C++/Python跨语言调用<br>Ray分布式框架并行BFS</div>
+        </div>
+        <div class="card">
+          <div style="font-weight:600;font-size:var(--small)">🏢 仲阳天王星 HPC组</div>
+          <div class="card-desc">SIMD加速深度学习推理(CPU)<br>推理速度达OnnxRuntime的<strong>2倍</strong></div>
+        </div>
+        <div class="insight" style="font-size:clamp(0.6rem,.85vw,.72rem)">
+          ✅ 无 ≥3月空窗期 · 全部在读期间完成 · 密度极高
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sf"><span>人选画像 · 李鸿列</span><span>CONFIDENTIAL</span></div>
+</div>
+
+<!-- ===== SLIDE 5: 技术深度亮点 ===== -->
+<div class="slide slide-off">
+  <div class="sc">
+    <div class="eyebrow reveal-up">TECHNICAL DEPTH</div>
+    <h2 class="reveal-up d1">技术深度 · 三大核心优势</h2>
+    <div class="bar reveal-up d2"></div>
+    <div class="cards c3 reveal-scale d3">
+      <div class="card card-top" style="border-top-color:var(--accent)">
+        <div class="card-val" style="font-size:clamp(1.2rem,2.5vw,1.8rem)">FPGA</div>
+        <div class="card-label" style="font-weight:700;color:var(--navy)">自研行情驱动</div>
+        <ul class="sl" style="margin-top:8px">
+          <li>ExaNIC X25 + 官方驱动</li>
+          <li><strong>公司内部自研</strong>，非买第三方</li>
+          <li>上海高频圈做自研的仅三四成</li>
+          <li>Kernel-bypass 原理精通</li>
+        </ul>
+      </div>
+      <div class="card card-top" style="border-top-color:var(--accent)">
+        <div class="card-val" style="font-size:clamp(1.2rem,2.5vw,1.8rem)">AVX-512</div>
+        <div class="card-label" style="font-weight:700;color:var(--navy)">深度向量化优化</div>
+        <ul class="sl" style="margin-top:8px">
+          <li>BS模型 + 全量Greeks向量化</li>
+          <li>logf/expf/erff 针对性优化</li>
+          <li>插值预计算行情N个Tick</li>
+          <li>⚡ <strong>两段经验叠加</strong>（仲阳+华钧）</li>
+        </ul>
+      </div>
+      <div class="card card-top" style="border-top-color:var(--accent)">
+        <div class="card-val" style="font-size:clamp(1.2rem,2.5vw,1.8rem)">期权</div>
+        <div class="card-label" style="font-weight:700;color:var(--navy)">业务全栈深度</div>
+        <ul class="sl" style="margin-top:8px">
+          <li>全市场7交易所期权业务</li>
+          <li>BS定价 / Greeks / 组合保证金</li>
+          <li>整个策略SDK独立开发维护</li>
+          <li>直接与Citadel背景PM对接</li>
+        </ul>
+      </div>
+    </div>
+    <div class="insight reveal-up d5">
+      <strong>📌 对客户的卖点口径：</strong>"在极简甚至恶劣的基建资源下（公司70人仅10个开发），独立支撑起整个期权组所有核心技术工作。 AVX-512两段经验叠加，市面上能做到这个深度的同龄C++开发非常少。"
+    </div>
+  </div>
+  <div class="sf"><span>人选画像 · 李鸿列</span><span>CONFIDENTIAL</span></div>
+</div>
+
+<!-- ===== SLIDE 6: 竞争力 + 适配客户类型 ===== -->
+<div class="slide slide-dark">
+  <div class="sc">
+    <div class="eyebrow reveal-up">MATCHING ANALYSIS</div>
+    <h2 class="reveal-up d1">竞争力分析 · 适配两类客户</h2>
+    <div class="bar reveal-up d2"></div>
+    <div class="cols">
+      <div class="card reveal-left d3" style="border-left:4px solid var(--accent)">
+        <div style="font-weight:700;color:var(--accent-light);font-size:var(--body);margin-bottom:6px">类型A · 高频量化</div>
+        <div class="card-desc" style="margin-top:0">
+          <strong>期货 / 股票 / 期权方向均可</strong><br><br>
+          客户看中：FPGA自研行情、柜台对接、AVX-512低延迟、全市场行情研究<br><br>
+          候选人原话：<em>"高频的东西基本相通，跟标的关系不大"</em>
+        </div>
+      </div>
+      <div class="card reveal-right d4" style="border-left:4px solid var(--accent)">
+        <div style="font-weight:700;color:var(--accent-light);font-size:var(--body);margin-bottom:6px">类型B · 期权量化</div>
+        <div class="card-desc" style="margin-top:0">
+          <strong>懂业务的C++开发极为稀缺</strong><br><br>
+          客户看中：BS定价/Greeks业务深度、组合保证金、全量策略SDK<br><br>
+          <em>"国内做期权量化的很少"，"很多百亿量化在开期权线"</em>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:clamp(10px,2vh,18px);color:var(--accent-light)" class="reveal-up d4">⚠️ 简历未体现但需对客户说明</h3>
+    <table class="tb reveal-up d5">
+      <tr><th>信息</th><th>重要性</th></tr>
+      <tr><td>FPGA行情是<strong>公司自研</strong>，非外采第三方</td><td style="color:#fc8181">🔴 高</td></tr>
+      <tr><td><strong>CME行情对接不是他做的</strong>（公司有接但他没参与）</td><td style="color:#fc8181">🔴 高</td></tr>
+      <tr><td>Rust仅个人爱好，工作中不常用</td><td style="color:rgba(255,255,255,.4)">🟢 低</td></tr>
+    </table>
+  </div>
+  <div class="sf"><span>人选画像 · 李鸿列</span><span>CONFIDENTIAL</span></div>
+</div>
+
+<!-- ===== SLIDE 7: 跳槽动机 + 竞业风险 ===== -->
+<div class="slide slide-dark">
+  <div class="sc">
+    <div class="eyebrow reveal-up" style="color:#fc8181">⚠️ CRITICAL RISK</div>
+    <h2 class="reveal-up d1">跳槽动机 & 竞业风险</h2>
+    <div class="bar reveal-up d2" style="background:#fc8181"></div>
+
+    <div class="cols">
+      <div class="reveal-left d3">
+        <h3 style="color:var(--accent-light)">Push 因素（为什么想走）</h3>
+        <div class="card" style="margin-bottom:var(--gap);border-left:3px solid #fc8181">
+          <div style="font-weight:700;font-size:var(--small);color:#fc8181;margin-bottom:4px">① 技术主心骨流失</div>
+          <div class="card-desc" style="margin-top:0">任职近10年的老CTO因与老板在技术投入上产生重大分歧而离职。系统、算力平台进入"无人维护"状态</div>
+        </div>
+        <div class="card" style="margin-bottom:var(--gap);border-left:3px solid #fc8181">
+          <div style="font-weight:700;font-size:var(--small);color:#fc8181;margin-bottom:4px">② 老板基因问题</div>
+          <div class="card-desc" style="margin-top:0">"继承家业"型老板，非技术出身。极度依赖花大钱挖PM，<strong>基建零投入</strong>。70人公司开发仅10人。打算招"纯项目管理"代替CTO</div>
+        </div>
+        <div class="card" style="border-left:3px solid #fc8181">
+          <div style="font-weight:700;font-size:var(--small);color:#fc8181;margin-bottom:4px">③ 运维压力内耗</div>
+          <div class="card-desc" style="margin-top:0">技术债堆积，早上7:30被call跑盘前检查。候选人原话："不敢想了已经"</div>
+        </div>
+      </div>
+      <div class="reveal-right d4">
+        <h3 style="color:#fc8181">🚨 竞业协议风险</h3>
+        <div class="alert-danger">
+          <strong>⚠️ 极其重要</strong><br><br>
+          公司老板被内部评价为：<br>
+          <em>"宁可把你毁了也不让你走"</em><br>
+          <em>"肯定把竞业全拉满"</em><br><br>
+          候选人仅入职1年，竞业期限或可控，但<strong>必须提前确认具体条款再推</strong>
+        </div>
+
+        <h3 style="color:var(--accent-light);margin-top:clamp(10px,2vh,18px)">求职偏好</h3>
+        <table class="tb">
+          <tr><td><strong>优先级</strong></td><td>业务契合度 > 薪酬</td></tr>
+          <tr><td><strong>风格</strong></td><td>偏外资/类外资氛围</td></tr>
+          <tr><td><strong>城市</strong></td><td>上海 > 深圳 ❌北京</td></tr>
+          <tr><td><strong>弹性</strong></td><td>期权/期货/股票高频均可</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="sf"><span>人选画像 · 李鸿列</span><span>CONFIDENTIAL</span></div>
+</div>
+
+<!-- ===== SLIDE 8: ACTION ITEMS ===== -->
+<div class="slide slide-white">
+  <div class="sc" style="text-align:center;align-items:center">
+    <div class="eyebrow reveal-up">HANDOVER CHECKLIST</div>
+    <h2 class="reveal-up d1">交接 Action Items</h2>
+    <div class="bar reveal-up d2" style="margin-left:auto;margin-right:auto"></div>
+    <table class="tb reveal-up d3" style="max-width:700px;text-align:left">
+      <tr><th>#</th><th>动作</th><th>状态</th></tr>
+      <tr><td>1</td><td>⚠️ <strong>确认竞业协议具体期限和启动条件</strong></td><td style="color:var(--red)">🔴 最优先</td></tr>
+      <tr><td>2</td><td>盘点高频C++开发 + 期权业务方向的客户需求</td><td>⬜ 待办</td></tr>
+      <tr><td>3</td><td>平凡私募（~60亿，ETF高频做市）— 看QD需求</td><td>⬜ 确认中</td></tr>
+      <tr><td>4</td><td>洛书投资 — ⚠️ 需CME经验（他没做过），可推看反应</td><td>⬜ 可推</td></tr>
+      <tr><td>5</td><td>世纪前沿（上海，C++量化开发）</td><td>⬜ 待盘</td></tr>
+      <tr><td>6</td><td>蒙玺投资（多家在开期权线）</td><td>⬜ 待查</td></tr>
+      <tr><td>7</td><td>九坤（C++量化开发需求）</td><td>⬜ 待查</td></tr>
+    </table>
+    <div class="insight reveal-up d4" style="max-width:700px;text-align:left;margin-top:clamp(12px,2vh,20px)">
+      <strong>📌 对外推荐时的核心口径：</strong><br>
+      "在极简基建下独立支撑整个期权组核心技术 · AVX-512两段经验叠加 · 跟城堡基金PM直接对接、业务理解远超同龄"
+    </div>
+    <div style="margin-top:clamp(20px,4vh,40px);font-size:var(--small);color:var(--text-subtle)" class="reveal-up d5">
+      落落 → 阿美 · 全量信息交接完毕
+    </div>
+  </div>
+  <div class="sf"><span>人选画像 · 李鸿列</span><span>CONFIDENTIAL</span></div>
+</div>
+
+<!-- ===== UI: Progress + Dots + Counter + Hint ===== -->
+<div class="progress-bar" id="progressBar" style="width:0%"></div>
+<div class="nav-dots" id="navDots"></div>
+<div class="slide-counter" id="slideCounter">1 / 8</div>
+<div class="kb-hint" id="kbHint">← → 或滑动翻页</div>
+
+<script>
+(function(){
+  const slides=document.querySelectorAll('.slide');
+  const total=slides.length;
+  let current=0;
+
+  // Build dots
+  const dotsC=document.getElementById('navDots');
+  slides.forEach((_,i)=>{const d=document.createElement('div');d.className='nav-dot';d.addEventListener('click',()=>goTo(i));dotsC.appendChild(d)});
+
+  function goTo(n){
+    if(n<0||n>=total||n===current)return;
+    slides[current].classList.remove('active');
+    current=n;
+    slides[current].classList.add('active');
+    updateUI();
+  }
+
+  function updateUI(){
+    const pct=((current+1)/total*100).toFixed(1);
+    document.getElementById('progressBar').style.width=pct+'%';
+    const isDark=slides[current].classList.contains('slide-dark');
+    const counter=document.getElementById('slideCounter');
+    counter.textContent=(current+1)+' / '+total;
+    counter.className='slide-counter'+(isDark?'':' light');
+    document.querySelectorAll('.nav-dot').forEach((d,i)=>{
+      d.className='nav-dot'+(i===current?' active':'')+(isDark?'':' light');
+    });
+  }
+
+  // Init
+  slides[0].classList.add('active');
+  updateUI();
+
+  // Keyboard
+  document.addEventListener('keydown',e=>{
+    if(['ArrowDown',' ','ArrowRight','PageDown'].includes(e.key)){e.preventDefault();goTo(current+1)}
+    else if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();goTo(current-1)}
+    else if(e.key==='Home'){e.preventDefault();goTo(0)}
+    else if(e.key==='End'){e.preventDefault();goTo(total-1)}
+    document.getElementById('kbHint').style.opacity='0';
+  });
+
+  // Wheel
+  let wc=false;
+  document.addEventListener('wheel',e=>{
+    if(wc)return;wc=true;
+    if(e.deltaY>30)goTo(current+1);else if(e.deltaY<-30)goTo(current-1);
+    setTimeout(()=>{wc=false},700);
+  },{passive:true});
+
+  // Touch
+  let ty=0,tx=0;
+  document.addEventListener('touchstart',e=>{ty=e.touches[0].clientY;tx=e.touches[0].clientX},{passive:true});
+  document.addEventListener('touchend',e=>{
+    const dy=ty-e.changedTouches[0].clientY;const dx=tx-e.changedTouches[0].clientX;
+    if(Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>50){dy>0?goTo(current+1):goTo(current-1)}
+  },{passive:true});
+
+  // Auto-hide hint
+  setTimeout(()=>{document.getElementById('kbHint').style.opacity='0'},4500);
+})();
+</script>
+</body>
+</html>
