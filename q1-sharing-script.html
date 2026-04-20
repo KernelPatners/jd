@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Q1手稿">
+<title>Q1季度分享会手机手稿</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --bg:#f8f0e3;
+  --card:#fffaf1;
+  --ink:#241d16;
+  --muted:#7d6f61;
+  --soft:#eadccc;
+  --accent:#9c4d2e;
+  --accent-2:#1f6f5b;
+  --shadow:0 18px 50px rgba(81,61,38,.12);
+  --font-size:20px;
+  --line:1.82;
+}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 18% -5%,rgba(156,77,46,.16),transparent 34%),
+    linear-gradient(180deg,#f8f0e3,#efe0cd);
+  color:var(--ink);
+  font-family:"Songti SC","STSong","PingFang SC","Hiragino Sans GB","Microsoft YaHei",serif;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+body.dark{
+  --bg:#111513;
+  --card:#1c211e;
+  --ink:#f2eadf;
+  --muted:#b8aa9a;
+  --soft:#343b35;
+  --accent:#e2a56f;
+  --accent-2:#74b79d;
+  background:
+    radial-gradient(circle at 18% -5%,rgba(226,165,111,.14),transparent 34%),
+    linear-gradient(180deg,#111513,#0b0e0c);
+}
+body.prompt{
+  --font-size:25px;
+  --line:1.95;
+}
+.progress{
+  position:fixed;
+  top:0;
+  left:0;
+  width:0;
+  height:4px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  z-index:20;
+}
+.wrap{
+  width:min(100%,720px);
+  margin:0 auto;
+  padding:calc(18px + env(safe-area-inset-top)) 15px calc(112px + env(safe-area-inset-bottom));
+}
+.hero{
+  position:relative;
+  padding:26px 20px 22px;
+  margin:0 0 16px;
+  background:var(--card);
+  border:1px solid rgba(125,111,97,.18);
+  border-radius:26px;
+  box-shadow:var(--shadow);
+}
+.eyebrow{
+  display:inline-flex;
+  padding:7px 10px 6px;
+  border-radius:999px;
+  background:rgba(156,77,46,.1);
+  color:var(--accent);
+  font:800 12px/1.1 "Avenir Next","Helvetica Neue",Arial,sans-serif;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+body.dark .eyebrow{background:rgba(226,165,111,.12)}
+h1{
+  margin:16px 0 10px;
+  font-size:34px;
+  line-height:1.15;
+  letter-spacing:-.05em;
+}
+.lead{
+  margin:0;
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.7;
+}
+.toc{
+  position:sticky;
+  top:8px;
+  z-index:10;
+  margin:0 0 14px;
+  padding:10px;
+  background:color-mix(in srgb,var(--card) 88%,transparent);
+  border:1px solid rgba(125,111,97,.16);
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(80,60,40,.08);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  overflow-x:auto;
+  white-space:nowrap;
+  scrollbar-width:none;
+}
+.toc::-webkit-scrollbar{display:none}
+.toc a{
+  display:inline-flex;
+  align-items:center;
+  min-height:34px;
+  margin-right:7px;
+  padding:8px 11px;
+  border-radius:999px;
+  background:rgba(125,111,97,.1);
+  color:var(--ink);
+  text-decoration:none;
+  font:700 13px/1.1 "Avenir Next","Helvetica Neue",Arial,sans-serif;
+}
+.toc a.active{
+  background:var(--accent);
+  color:#fff;
+}
+article{
+  background:var(--card);
+  border:1px solid rgba(125,111,97,.18);
+  border-radius:26px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+section{
+  padding:28px 20px;
+  border-bottom:1px solid var(--soft);
+  scroll-margin-top:76px;
+}
+section:last-child{border-bottom:0}
+h2{
+  margin:0 0 18px;
+  color:var(--accent);
+  font-size:24px;
+  line-height:1.28;
+  letter-spacing:-.03em;
+}
+p{
+  margin:0 0 18px;
+  font-size:var(--font-size);
+  line-height:var(--line);
+}
+p:last-child{margin-bottom:0}
+strong{
+  color:var(--accent);
+  font-weight:900;
+}
+.quote{
+  margin:22px 0;
+  padding:18px 18px 18px 20px;
+  border-left:5px solid var(--accent);
+  background:rgba(156,77,46,.08);
+  border-radius:0 18px 18px 0;
+  font-weight:900;
+}
+body.dark .quote{background:rgba(226,165,111,.1)}
+.mini{
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.6;
+}
+.tools{
+  position:fixed;
+  left:10px;
+  right:10px;
+  bottom:calc(10px + env(safe-area-inset-bottom));
+  z-index:30;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  gap:8px;
+  width:min(700px,calc(100% - 20px));
+  margin:0 auto;
+  padding:9px;
+  border-radius:24px;
+  background:rgba(31,28,24,.78);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:0 14px 36px rgba(0,0,0,.22);
+}
+button{
+  border:0;
+  min-height:43px;
+  border-radius:18px;
+  background:rgba(255,255,255,.12);
+  color:#fff8ee;
+  font:800 13px/1.1 "Avenir Next","Helvetica Neue",Arial,sans-serif;
+}
+button:active{transform:scale(.98);background:rgba(226,165,111,.28)}
+.readmark{
+  position:fixed;
+  right:10px;
+  top:calc(10px + env(safe-area-inset-top));
+  z-index:25;
+  padding:8px 10px;
+  border-radius:999px;
+  background:rgba(31,28,24,.72);
+  color:#fff8ee;
+  font:800 12px/1 "Avenir Next","Helvetica Neue",Arial,sans-serif;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.section-no{
+  display:inline-flex;
+  width:30px;
+  height:30px;
+  align-items:center;
+  justify-content:center;
+  margin-right:8px;
+  border-radius:50%;
+  background:rgba(156,77,46,.1);
+  color:var(--accent);
+  font:900 13px/1 "Avenir Next","Helvetica Neue",Arial,sans-serif;
+  vertical-align:2px;
+}
+body.dark .section-no{background:rgba(226,165,111,.12)}
+@media(max-width:380px){
+  :root{--font-size:19px}
+  body.prompt{--font-size:23px}
+  h1{font-size:30px}
+  h2{font-size:22px}
+  .wrap{padding-left:11px;padding-right:11px}
+  section{padding-left:17px;padding-right:17px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="readmark" id="readmark">0%</div>
+<main class="wrap">
+  <header class="hero">
+    <span class="eyebrow">Q1 Sharing · Mobile Script</span>
+    <h1>作为一个“一年级”猎头的成长心得，和给团队的几个提醒</h1>
+    <p class="lead">手机阅读版，适合直接照着念。主题：在推荐速度与推荐转化之间，找到更合适的平衡。</p>
+  </header>
+
+  <nav class="toc" id="toc" aria-label="章节目录">
+    <a href="#intro">开场</a>
+    <a href="#speed">一、快</a>
+    <a href="#case">二、案例</a>
+    <a href="#feedback">三、反馈</a>
+    <a href="#calibrate">四、校准</a>
+    <a href="#candidate">五、候选人</a>
+    <a href="#emotion">六、状态</a>
+    <a href="#fifteen">七、15分钟</a>
+    <a href="#team">八、团队</a>
+    <a href="#ending">结尾</a>
+  </nav>
+
+  <article>
+    <section id="intro">
+      <h2><span class="section-no">0</span>开场</h2>
+      <p>大家好。</p>
+      <p>今天我不准备做 PPT，也不想讲一个特别宏大的主题。</p>
+      <p>我想用一个“一年级猎头”的视角，跟大家分享一下我这一年，尤其是 Q1 的一个变化。</p>
+      <p>去年 4 月 21 日，我入职公司。</p>
+      <p>到明天，刚好差不多一年。</p>
+      <p>这一年里，我一直在学习一件事：</p>
+      <p class="quote">怎么在推荐速度和推荐转化之间，找到一个更合适的平衡。</p>
+      <p>这句话不是说速度不重要。</p>
+      <p>恰恰相反。</p>
+      <p>做猎头以后，我越来越理解，速度真的很重要。</p>
+      <p>客户给了岗位，我们要快点响应。</p>
+      <p>候选人出现了，我们要快点判断。</p>
+      <p>简历合适了，我们要尽快推进。</p>
+      <p>很多时候，快一步确实会带来机会。</p>
+      <p>但经过这一年的实践，我也慢慢意识到：</p>
+      <p>速度本身不是目的。</p>
+      <p>速度最终要服务于转化。</p>
+      <p>如果方向是准的，快就是优势。</p>
+      <p>如果方向没有校准，快可能只是更快地重复同一个偏差。</p>
+      <p>所以今天我想分享的主题是：</p>
+      <p class="quote">快推是油门，理解两头是方向盘。</p>
+      <p>油门要踩。</p>
+      <p>但方向盘也要握住。</p>
+    </section>
+
+    <section id="speed">
+      <h2><span class="section-no">1</span>我先承认：快是这个行业非常重要的基本功</h2>
+      <p>我先说前半句：快推是油门。</p>
+      <p>猎头这个工作，如果完全不快，是做不起来的。</p>
+      <p>客户不会一直等我们。</p>
+      <p>候选人也不会一直只跟我们聊。</p>
+      <p>尤其是好候选人，窗口期很短。</p>
+      <p>今天愿意看机会，明天可能已经进流程。</p>
+      <p>今天还能约电话，过几天可能已经被别的公司锁住。</p>
+      <p>所以我越来越能理解，公司为什么一直强调快人一步。</p>
+      <p>因为在很多标准化岗位上，快就是竞争力。</p>
+      <p>快点搜索。</p>
+      <p>快点触达。</p>
+      <p>快点判断。</p>
+      <p>快点把合适的人推到客户面前。</p>
+      <p>这些动作本身没有问题。</p>
+      <p>我这一年也在训练自己，不要因为想得太多，就把节奏拖慢。</p>
+      <p>但 Q1 给我的新体会是：</p>
+      <p>快不是单独存在的。</p>
+      <p>它旁边一定要有一个东西，叫校准。</p>
+      <p>没有校准的快，很容易变成“我很努力，但转化不好”。</p>
+      <p>有校准的快，才会变成“我推得快，而且越推越准”。</p>
+    </section>
+
+    <section id="case">
+      <h2><span class="section-no">2</span>Q1 最提醒我的一个案例：JD写着招Rust，最后留下的是不会Rust的人</h2>
+      <p>Q1 有一个岗位，我印象特别深。</p>
+      <p>客户写得很清楚：招 Rust。</p>
+      <p>从表面上看，这个需求不复杂。</p>
+      <p>招 Rust，我们就去找会 Rust 的。</p>
+      <p>于是我们推了好几个候选人。</p>
+      <p>有大厂背景的。</p>
+      <p>有中厂高级开发。</p>
+      <p>有交易系统经验的。</p>
+      <p>他们都有 Rust 经验。</p>
+      <p>但结果并不好。</p>
+      <p>一个个挂。</p>
+      <p>有的简历挂，有的技术面挂。</p>
+      <p>如果只看 JD，我们好像没有偏题。</p>
+      <p>客户说要 Rust，我们找了会 Rust 的。</p>
+      <p>客户说要交易系统，我们找了做过交易系统的。</p>
+      <p>但最后真正通过并留下来的，是一个 22 岁的高频开发。</p>
+      <p>他最特别的地方是什么？</p>
+      <p class="quote">他完全不会 Rust。</p>
+      <p>这个结果一开始看起来很反直觉。</p>
+      <p>但后来我们再看面试反馈，就会发现，客户真正考的不是“会不会 Rust”。</p>
+      <p>面试官真正追的是：</p>
+      <p>CPU 微架构了解多少？</p>
+      <p>编译器优化有没有实操？</p>
+      <p>内存、指令集、底层性能调优怎么做？</p>
+      <p>也就是说，Rust 是题面。</p>
+      <p>底层性能理解，才是答案。</p>
+      <p>客户写出来的是语言。</p>
+      <p>客户真正要的是底层能力。</p>
+      <p>这个案例让我意识到一件事：</p>
+      <p class="quote">JD 很重要，但 JD 不等于真实需求的全部。</p>
+      <p>我们当然要看 JD。</p>
+      <p>但不能只停留在 JD。</p>
+      <p>尤其是越复杂、越核心、越高薪的岗位，JD 可能只是冰山露出来的一小部分。</p>
+      <p>下面藏着的，才是客户真正会在面试里考的东西。</p>
+    </section>
+
+    <section id="feedback">
+      <h2><span class="section-no">3</span>所以我现在看反馈，不只看“过没过”，更看“为什么”</h2>
+      <p>这个案例之后，我对面试反馈的重视程度变高了。</p>
+      <p>以前看到反馈，我可能会先关心结果：</p>
+      <p>过了吗？</p>
+      <p>挂了吗？</p>
+      <p>下一轮约了吗？</p>
+      <p>但现在我会更在意另一个问题：</p>
+      <p class="quote">这个反馈在告诉我什么？</p>
+      <p>如果一个人挂了，客户只说“不合适”，那这个反馈其实还不够。</p>
+      <p>我们要尽量往下追一层。</p>
+      <p>不合适在哪里？</p>
+      <p>是技术深度不够？</p>
+      <p>是行业理解不够？</p>
+      <p>是项目经历太浅？</p>
+      <p>是沟通方式不对？</p>
+      <p>还是客户自己对画像的理解发生了变化？</p>
+      <p>还有一个岗位也让我印象很深。</p>
+      <p>一开始客户说要项目经理。</p>
+      <p>我们自然会理解成，要一个推进项目、协调资源、盯进度的人。</p>
+      <p>但面了几个人之后，客户发现，他们真正缺的不是一个“项目推进的人”。</p>
+      <p>他们缺的是一个懂业务痛点、能主动发现问题、能给建议的人。</p>
+      <p>于是这个岗位后来从“项目经理”升级成了“业务总监”。</p>
+      <p>薪资池也翻倍了。</p>
+      <p>这件事对我也很有提醒。</p>
+      <p>客户不是永远从第一天起，就百分百知道自己要什么。</p>
+      <p>有时候客户也是在面人的过程中，慢慢把需求想清楚。</p>
+      <p>所以人被拒不可怕。</p>
+      <p>真正可惜的是：</p>
+      <p>人被拒了，但我们没有从这次拒绝里获得新的判断。</p>
+      <p>如果每一次失败只是失败，那就很亏。</p>
+      <p>但如果每一次失败都帮我们把画像校准一点，那它就不是白费。</p>
+    </section>
+
+    <section id="calibrate">
+      <h2><span class="section-no">4</span>我给自己的动作：每推3个人，停下来校准一次</h2>
+      <p>所以 Q1 之后，我给自己定了一个很简单的动作。</p>
+      <p>同一个岗位，每推 3 个人，就停下来校准一次。</p>
+      <p>不一定要做得很复杂。</p>
+      <p>也不是要写很长的复盘文档。</p>
+      <p>就做四件事。</p>
+      <p>第一，把这 3 个人的反馈放在一起看。</p>
+      <p>不要孤立地看某一个人。</p>
+      <p>因为单个反馈可能有偶然性。</p>
+      <p>但 3 个反馈放在一起，通常会出现一些重复信号。</p>
+      <p>第二，找面试官反复出现的关键词。</p>
+      <p>比如他是不是一直在问底层？</p>
+      <p>是不是一直在问业务理解？</p>
+      <p>是不是一直在问实盘经验？</p>
+      <p>是不是一直在问候选人有没有主动发现问题？</p>
+      <p>这些反复出现的词，往往比 JD 更接近真实考点。</p>
+      <p>第三，把这些关键词拿回去和 JD 对照。</p>
+      <p>看客户实际在考的东西，和原始 JD 写的东西是不是一致。</p>
+      <p>如果不一致，说明我们不能继续按旧理解推。</p>
+      <p>第四，调整方向。</p>
+      <p>调搜索画像。</p>
+      <p>调推荐理由。</p>
+      <p>调电话沟通重点。</p>
+      <p>调我们给候选人的面试预期。</p>
+      <p>这个动作的目的，不是让我们变慢。</p>
+      <p>相反，是为了让后面的快更有效。</p>
+      <p>我现在理解的平衡是：</p>
+      <p class="quote">前面可以快，但每推一小段，要有一次校准。</p>
+      <p>这样我们不是一直踩油门乱跑，而是一边跑，一边修方向。</p>
+    </section>
+
+    <section id="candidate">
+      <h2><span class="section-no">5</span>理解客户之后，还要理解候选人</h2>
+      <p>前面讲的是客户侧。</p>
+      <p>但这一年我还有一个很大的体会：</p>
+      <p>只懂客户，也不够。</p>
+      <p>我们还要懂候选人。</p>
+      <p>因为候选人不是一份简历。</p>
+      <p>候选人是一个人。</p>
+      <p>他为什么想动？</p>
+      <p>他现在是不是真的想动？</p>
+      <p>他最在意的是什么？</p>
+      <p>他最担心的是什么？</p>
+      <p>这些东西如果我们没有搞清楚，推荐就很容易变成模板。</p>
+      <p>比如同一个候选人，如果只看简历，我们可能会写：</p>
+      <p>“候选人寻求更好的发展机会，看好贵司平台。”</p>
+      <p>这句话不能说错。</p>
+      <p>但它太空了。</p>
+      <p>客户看完不会记住这个人。</p>
+      <p>如果我们多花 15 分钟跟候选人聊清楚，可能会发现完全不同的推荐角度。</p>
+      <p>比如这个人不是简单想跳槽。</p>
+      <p>他是从 0 搭过一个核心系统。</p>
+      <p>但公司业务调整以后，这套系统没有机会继续发挥价值。</p>
+      <p>他真正想找的是一个能让自己系统能力被看见、被使用、被放大的平台。</p>
+      <p>那我们的推荐理由就可以变成：</p>
+      <p>“他不是单纯寻求更好的机会。他从 0 搭过核心系统，但现公司业务调整后，能力没有发挥空间。他现在需要的是一个真正能让系统价值落地的平台。”</p>
+      <p>这两种说法，推的是同一个人。</p>
+      <p>但后者更真实。</p>
+      <p>也更容易让客户理解他的动机。</p>
+      <p>所以我现在越来越觉得：</p>
+      <p class="quote">推荐不是包装，推荐是翻译。</p>
+      <p>把候选人的真实动机，翻译给客户。</p>
+      <p>也把客户的真实机会，翻译给候选人。</p>
+    </section>
+
+    <section id="emotion">
+      <h2><span class="section-no">6</span>候选人状态不对时，要先判断是“推一把”还是“托一下”</h2>
+      <p>候选人侧还有一个小体会。</p>
+      <p>有时候候选人不是能力不行。</p>
+      <p>是状态不对。</p>
+      <p>比如他连续挂了两家。</p>
+      <p>或者前面流程消耗太多。</p>
+      <p>或者他突然开始怀疑自己。</p>
+      <p>这个时候，如果我们只是说：</p>
+      <p>“加油，你很棒。”</p>
+      <p>“别灰心，再试试。”</p>
+      <p>不一定有用。</p>
+      <p>因为他不是不知道要加油。</p>
+      <p>他真正卡住的，可能是觉得自己又要被审判一次。</p>
+      <p>这时候我觉得更有效的方式，是帮他降赌注。</p>
+      <p>比如可以说：</p>
+      <p>“面坏了又怎样？就当交流。你不是只被他们评估，你也在反向面试他们。你也可以看看这个团队是不是你想加入的。”</p>
+      <p>这句话的重点，不是打鸡血。</p>
+      <p>而是把“考试”重新定义成“双向选择”。</p>
+      <p>候选人的心理负担会小很多。</p>
+      <p>这也提醒我：</p>
+      <p>推进候选人，不是永远往前推。</p>
+      <p>有时候是推一把。</p>
+      <p>有时候是托一下。</p>
+      <p>我们要判断他当下真正需要的是什么。</p>
+    </section>
+
+    <section id="fifteen">
+      <h2><span class="section-no">7</span>推人前15分钟，我现在最想问清楚三件事</h2>
+      <p>所以如果落到一个很具体的动作，我现在会提醒自己：</p>
+      <p>推人前，尽量花 15 分钟问清楚三件事。</p>
+      <p>第一，他为什么真的想走？</p>
+      <p>不是“寻求更好发展”这种表面答案。</p>
+      <p>而是底层触发点是什么。</p>
+      <p>是业务没空间？</p>
+      <p>是老板不授权？</p>
+      <p>是技术路线不认可？</p>
+      <p>是钱？</p>
+      <p>是平台？</p>
+      <p>还是他已经看不到成长了？</p>
+      <p>第二，他现在是什么状态？</p>
+      <p>是兴奋？</p>
+      <p>是观望？</p>
+      <p>是防御？</p>
+      <p>是疲惫？</p>
+      <p>还是嘴上说看看，其实根本没准备动？</p>
+      <p>第三，有什么顾虑是我们能提前干预的？</p>
+      <p>比如担心岗位不真实。</p>
+      <p>担心面试太难。</p>
+      <p>担心薪资谈不拢。</p>
+      <p>担心团队不稳定。</p>
+      <p>担心现在跳槽太冒险。</p>
+      <p>这些问题如果提前知道，我们就有机会提前处理。</p>
+      <p>如果不知道，很多问题就会在面试前一天、offer 前一晚，甚至入职前爆出来。</p>
+      <p>所以这 15 分钟，不是为了拖慢推荐。</p>
+      <p>而是为了提高推荐后的稳定性。</p>
+    </section>
+
+    <section id="team">
+      <h2><span class="section-no">8</span>给团队的提醒：这三种情况，先停下来一起看</h2>
+      <p>最后，我想把这件事落到团队协作上。</p>
+      <p>如果大家在推进中遇到这三种情况，我建议先停一下，不要自己硬扛。</p>
+      <p>可以直接来找我，我们一起看。</p>
+      <p>第一种，连续推挂好几个，但反馈看不清。</p>
+      <p>这个时候不要继续盲推。</p>
+      <p>我们可以把几个反馈放在一起，看看是画像错了，还是客户需求变了，还是我们的推荐理由没讲到点上。</p>
+      <p>第二种，候选人出现犹豫、抵触、不想面。</p>
+      <p>这个时候也不要硬推。</p>
+      <p>硬推可能短期把流程往前推了一步，但长期可能把人推跑。</p>
+      <p>我们先一起判断他到底卡在哪里。</p>
+      <p>是信息不足？</p>
+      <p>是信心不足？</p>
+      <p>是对岗位有误解？</p>
+      <p>还是他根本没有准备好动？</p>
+      <p>第三种，JD 描述和实际业务线索开始冲突。</p>
+      <p>比如 JD 写的是 A，但客户面试一直问 B。</p>
+      <p>或者客户嘴上说要项目经理，但反馈里一直在挑业务理解。</p>
+      <p>这个时候往往说明方向已经变了。</p>
+      <p>不要继续按旧画像搜人。</p>
+      <p>我们先把方向盘扶正。</p>
+    </section>
+
+    <section id="ending">
+      <h2><span class="section-no">9</span>结尾：我现在对“专业”的理解</h2>
+      <p>最后我想说一下，这一年我对“专业”的理解有什么变化。</p>
+      <p>以前我会比较直接地把专业理解成：</p>
+      <p>反应快。</p>
+      <p>简历多。</p>
+      <p>推进积极。</p>
+      <p>这些当然还是专业的一部分。</p>
+      <p>但现在我会觉得，专业还包括另一件事：</p>
+      <p class="quote">知道什么时候该停下来校准。</p>
+      <p>停下来不是放慢。</p>
+      <p>停下来是为了后面更准。</p>
+      <p>猎头这个工作很容易让人进入一种忙碌感。</p>
+      <p>一直找人。</p>
+      <p>一直沟通。</p>
+      <p>一直催流程。</p>
+      <p>一直发简历。</p>
+      <p>但忙不等于有效。</p>
+      <p>快也不等于准。</p>
+      <p>我这一年最大的成长之一，就是开始意识到：</p>
+      <p>我们不是简历搬运工。</p>
+      <p>我们是在客户和候选人之间做翻译、校准和判断的人。</p>
+      <p>客户说出来的，不一定是他真正要的。</p>
+      <p>候选人说出来的，也不一定是他真正怕的。</p>
+      <p>我们要做的，是往下多问一层。</p>
+      <p>再多问一层。</p>
+      <p>直到看到真正驱动事情发生的那个原因。</p>
+      <p>所以今天最后还是回到那句话：</p>
+      <p class="quote">快推是油门，理解两头是方向盘。</p>
+      <p>没有油门，车跑不起来。</p>
+      <p>但没有方向盘，跑得越快，越容易偏。</p>
+      <p>希望接下来，我们都能继续保持快。</p>
+      <p>但这个快，是有判断的快。</p>
+      <p>是边推进、边校准、边理解的快。</p>
+      <p>我也是一年级猎头，还在学习。</p>
+      <p>如果这一年有一点心得可以分享给大家，就是：</p>
+      <p class="quote">真正让我们变强的，不只是每一次成功推荐，而是每一次推进之后，我们有没有把客户和候选人看得更清楚一点。</p>
+    </section>
+  </article>
+</main>
+
+<div class="tools" role="toolbar" aria-label="阅读工具">
+  <button id="prev" type="button">上一节</button>
+  <button id="next" type="button">下一节</button>
+  <button id="prompt" type="button">大字</button>
+  <button id="theme" type="button">夜间</button>
+</div>
+
+<script>
+const sections=[...document.querySelectorAll("section")];
+const tocLinks=[...document.querySelectorAll(".toc a")];
+const progress=document.getElementById("progress");
+const readmark=document.getElementById("readmark");
+let current=0;
+
+function updateProgress(){
+  const scrollTop=window.scrollY;
+  const max=document.documentElement.scrollHeight-window.innerHeight;
+  const pct=max>0?Math.min(100,Math.max(0,(scrollTop/max)*100)):0;
+  progress.style.width=pct+"%";
+  readmark.textContent=Math.round(pct)+"%";
+
+  let active=0;
+  sections.forEach((section,i)=>{
+    if(section.getBoundingClientRect().top<window.innerHeight*0.36){active=i}
+  });
+  current=active;
+  tocLinks.forEach((link,i)=>link.classList.toggle("active",i===active));
+  const activeLink=tocLinks[active];
+  if(activeLink){
+    activeLink.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});
+  }
+}
+
+function go(delta){
+  current=Math.min(sections.length-1,Math.max(0,current+delta));
+  sections[current].scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+document.getElementById("prev").addEventListener("click",()=>go(-1));
+document.getElementById("next").addEventListener("click",()=>go(1));
+document.getElementById("prompt").addEventListener("click",(event)=>{
+  document.body.classList.toggle("prompt");
+  event.currentTarget.textContent=document.body.classList.contains("prompt")?"正常":"大字";
+});
+document.getElementById("theme").addEventListener("click",(event)=>{
+  document.body.classList.toggle("dark");
+  event.currentTarget.textContent=document.body.classList.contains("dark")?"白天":"夜间";
+});
+
+window.addEventListener("scroll",updateProgress,{passive:true});
+window.addEventListener("resize",updateProgress);
+updateProgress();
+</script>
+</body>
+</html>
