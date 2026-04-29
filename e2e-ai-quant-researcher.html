@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI算法研究员｜某端到端AI量化初创公司</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --paper: #ffffff;
+      --ink: #17201c;
+      --text: #43504b;
+      --muted: #7f8b86;
+      --line: #dfe5df;
+      --teal: #0f766e;
+      --teal-soft: #e1f3ef;
+      --gold: #a76f14;
+      --gold-soft: #fff1d6;
+      --red: #b9473f;
+      --red-soft: #fae7e5;
+      --radius: 8px;
+      --shadow: 0 12px 32px rgba(23, 32, 28, 0.08);
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.72;
+      -webkit-font-smoothing: antialiased;
+    }
+    .page {
+      width: min(100%, 920px);
+      margin: 0 auto;
+      background: var(--paper);
+      min-height: 100vh;
+      box-shadow: var(--shadow);
+    }
+    header {
+      padding: 34px 22px 26px;
+      background: linear-gradient(135deg, #ffffff 0%, #eef8f4 62%, #fff4dc 100%);
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+    h1 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(30px, 7vw, 54px);
+      line-height: 1.08;
+      letter-spacing: 0;
+      font-weight: 800;
+    }
+    .subtitle {
+      margin: 14px 0 0;
+      max-width: 720px;
+      color: #30403a;
+      font-size: 16px;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(15,118,110,0.2);
+      color: #27443e;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfa;
+    }
+    .fact {
+      padding: 18px 14px;
+      border-right: 1px solid var(--line);
+    }
+    .fact:last-child { border-right: 0; }
+    .fact strong {
+      display: block;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.2;
+      margin-bottom: 5px;
+    }
+    .fact span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+    .nav a {
+      white-space: nowrap;
+      text-decoration: none;
+      color: var(--text);
+      background: #f2f5f1;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    section {
+      padding: 26px 22px;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .label {
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    h2 {
+      margin: 4px 0 0;
+      color: var(--ink);
+      font-size: 23px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+    .lede {
+      margin: 0;
+      color: #33413b;
+      font-size: 15px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .card {
+      background: #fbfcfa;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+    .card h3 {
+      margin: 0 0 7px;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.35;
+    }
+    .card p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text);
+    }
+    .list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+    .list li {
+      position: relative;
+      padding-left: 24px;
+      color: #33413b;
+      font-size: 14px;
+    }
+    .list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag {
+      padding: 7px 9px;
+      background: var(--teal-soft);
+      color: #0b5f59;
+      border: 1px solid rgba(15,118,110,0.22);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .tag.gold {
+      background: var(--gold-soft);
+      color: #7a4d08;
+      border-color: rgba(167,111,20,0.22);
+    }
+    .split {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+      align-items: start;
+    }
+    details {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfcfa;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+    summary {
+      cursor: pointer;
+      color: var(--ink);
+      font-weight: 750;
+      font-size: 14px;
+    }
+    details p {
+      margin: 10px 0 0;
+      color: var(--text);
+      font-size: 13px;
+    }
+    .timeline {
+      counter-reset: step;
+      display: grid;
+      gap: 10px;
+    }
+    .step {
+      counter-increment: step;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+    .step::before {
+      content: counter(step);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .step h3 {
+      margin: 0 0 2px;
+      color: var(--ink);
+      font-size: 14px;
+    }
+    .step p {
+      margin: 0;
+      color: var(--text);
+      font-size: 13px;
+    }
+    .notice {
+      background: var(--gold-soft);
+      border: 1px solid rgba(167,111,20,0.24);
+      color: #6e4b10;
+      border-radius: var(--radius);
+      padding: 13px 14px;
+      font-size: 13px;
+      margin-top: 14px;
+    }
+    .fit {
+      background: #f9fbf8;
+    }
+    .fit .card:first-child {
+      border-color: rgba(15,118,110,0.22);
+      background: #f2fbf8;
+    }
+    .fit .card:last-child {
+      border-color: rgba(185,71,63,0.2);
+      background: var(--red-soft);
+    }
+    footer {
+      padding: 24px 22px 34px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      background: #fbfcfa;
+    }
+    footer strong {
+      display: block;
+      color: var(--ink);
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    .fade {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+    .fade.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (max-width: 720px) {
+      .facts { grid-template-columns: repeat(2, 1fr); }
+      .fact:nth-child(2) { border-right: 0; }
+      .fact:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .grid, .split { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="eyebrow"><span class="dot"></span> Anonymous Job Card</div>
+      <h1>AI算法研究员</h1>
+      <p class="subtitle">某端到端 AI 量化初创公司，正在搭建从原始市场数据到持仓组合的模型驱动投资系统。这个岗位偏研究型，不是传统应用算法或工程工具岗。</p>
+      <div class="chips">
+        <span class="chip">端到端 AI 量化公司</span>
+        <span class="chip">北京 base</span>
+        <span class="chip">博士实习 / 应届 / 1-2 年经验可看</span>
+        <span class="chip">早期核心研究岗位</span>
+      </div>
+    </header>
+
+    <div class="facts">
+      <div class="fact"><strong>100-150W</strong><span>固定年包区间</span></div>
+      <div class="fact"><strong>北京</strong><span>工作城市</span></div>
+      <div class="fact"><strong>2-3 HC</strong><span>核心研究扩招</span></div>
+      <div class="fact"><strong>近十亿级</strong><span>2026募资计划</span></div>
+    </div>
+
+    <nav class="nav">
+      <a href="#company">公司</a>
+      <a href="#mission">岗位</a>
+      <a href="#profile">画像</a>
+      <a href="#pay">薪酬</a>
+      <a href="#interview">面试</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <section id="company" class="fade">
+      <div class="section-title">
+        <div>
+          <div class="label">Company</div>
+          <h2>一家早期端到端 AI 量化团队</h2>
+        </div>
+      </div>
+      <p class="lede">公司专注于基于深度学习大模型的股票预测与交易系统，目标是让模型直接从市场数据中学习，并生成可执行的持仓组合。当前以 A 股为主要市场，已进入自营实盘验证与产品化准备阶段，2026 年计划募资到 8-10 亿规模。</p>
+      <div class="grid" style="margin-top:16px;">
+        <div class="card"><h3>不是传统因子流水线</h3><p>方向上更强调从原始数据到模型、再到持仓组合的直接映射，减少人工特征工程依赖。</p></div>
+        <div class="card"><h3>更像科研实验室</h3><p>团队小而精，研究员独立性强，需要自己读 paper、做实验、验证模型方向。</p></div>
+        <div class="card"><h3>算力与数据资源充足</h3><p>现阶段已投入较多 AI 算力和数据资源，适合做深度学习模型探索。</p></div>
+        <div class="card"><h3>从自营走向产品化</h3><p>当前不是成熟平台螺丝钉岗位，而是参与早期模型体系和产品化闭环建设。</p></div>
+      </div>
+    </section>
+
+    <section id="mission" class="fade">
+      <div class="section-title">
+        <div>
+          <div class="label">Role</div>
+          <h2>你要解决的问题</h2>
+        </div>
+      </div>
+      <div class="split">
+        <ul class="list">
+          <li>研究端到端 AI 量化模型，围绕股票预测、组合生成、收益风险优化做持续探索。</li>
+          <li>参与模型设计、训练、调参、部署及实盘反馈分析。</li>
+          <li>从论文和实验中提炼可迁移的模型思路，并在金融时序场景中验证。</li>
+          <li>与数据、产品化和业务团队协作，把研究结果推进到真实交易或产品验证。</li>
+          <li>在早期团队中承担较完整的研究闭环，而不是只做单点模块。</li>
+        </ul>
+        <div class="card">
+          <h3>一句话理解</h3>
+          <p>这个岗位更适合想把深度学习、强化学习、时间序列建模真正迁移到金融实盘场景的人。公司看重的是研究心智、抽象能力和长期探索兴趣。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="profile" class="fade">
+      <div class="section-title">
+        <div>
+          <div class="label">Profile</div>
+          <h2>候选人画像</h2>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">博士背景为主</span>
+        <span class="tag">物理 / 数学 / 统计</span>
+        <span class="tag">AI / ML / 时序建模</span>
+        <span class="tag">强化学习</span>
+        <span class="tag">Transformer / GNN</span>
+        <span class="tag gold">博士实习可看</span>
+        <span class="tag gold">应届博士可看</span>
+        <span class="tag gold">1-2 年经验可看</span>
+      </div>
+      <div class="grid" style="margin-top:16px;">
+        <div class="card"><h3>学历与阶段</h3><p>博士为核心口径；博士实习、应届博士、毕业 1-2 年左右的早期研究型候选人都可以看。</p></div>
+        <div class="card"><h3>能力底层</h3><p>研究能力、抽象提炼能力、本质洞察能力，比单纯工程实现经验更重要。</p></div>
+        <div class="card"><h3>背景来源</h3><p>高校实验室、AI Lab、博士后、数理基础强的研究型候选人优先；量化经验不是硬性。</p></div>
+        <div class="card"><h3>加分项</h3><p>顶会顶刊、竞赛、强论文、金融时序、多模态、大规模训练经验会加分，但不是唯一标准。</p></div>
+      </div>
+    </section>
+
+    <section id="pay" class="fade">
+      <div class="section-title">
+        <div>
+          <div class="label">Compensation</div>
+          <h2>薪酬福利</h2>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="card"><h3>固定年包</h3><p>100-150 万人民币，具体根据研究背景、能力深度和匹配度评估。</p></div>
+        <div class="card"><h3>福利</h3><p>社保公积金按公司政策缴纳，另有基础补贴、体检、团建等常规福利。</p></div>
+        <div class="card"><h3>长期空间</h3><p>公司处于自营验证到产品化阶段，后续激励可能与模型和产品表现绑定。</p></div>
+        <div class="card"><h3>工作方式</h3><p>北京 base，团队风格偏研究型，小团队沟通链路短，研究自主性较高。</p></div>
+      </div>
+      <div class="notice">长期激励、收益绑定等细节以面试及 offer 沟通为准，前期不建议自行理解成固定承诺。</div>
+    </section>
+
+    <section id="interview" class="fade">
+      <div class="section-title">
+        <div>
+          <div class="label">Interview</div>
+          <h2>面试流程</h2>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="step"><div><h3>HR 简历面</h3><p>确认背景、研究方向、求职动机、base 与薪资预期。</p></div></div>
+        <div class="step"><div><h3>AI 算法研究业务部门面</h3><p>重点看研究能力、模型理解、论文/项目深挖、实验闭环能力。</p></div></div>
+        <div class="step"><div><h3>创始人复试</h3><p>沟通端到端 AI 量化方向、研究心智、团队匹配度与长期发展。</p></div></div>
+        <div class="step"><div><h3>终面谈薪</h3><p>确认 offer 结构、入职时间、薪资福利和后续安排。</p></div></div>
+      </div>
+    </section>
+
+    <section id="faq" class="fade">
+      <div class="section-title">
+        <div>
+          <div class="label">FAQ</div>
+          <h2>候选人常问问题</h2>
+        </div>
+      </div>
+      <details open>
+        <summary>一定要有量化经验吗？</summary>
+        <p>不强制。公司更看重 AI/深度学习研究能力，以及候选人是否真正愿意把模型能力迁移到金融市场。</p>
+      </details>
+      <details>
+        <summary>这是偏工程还是偏研究？</summary>
+        <p>偏研究，但需要能把研究推进到训练、部署和验证，不适合只想做论文或只想做纯业务系统开发的人。</p>
+      </details>
+      <details>
+        <summary>为什么适合早期博士？</summary>
+        <p>端到端 AI 量化仍处在快速探索期，公司认为应届或早期博士更容易掌握新的模型方法，也更少受传统量化框架限制。</p>
+      </details>
+      <details>
+        <summary>公司现在是什么阶段？</summary>
+        <p>已进入自营实盘验证和产品化准备阶段，2026 年计划募资到 8-10 亿规模。具体业务细节可在面试中进一步了解。</p>
+      </details>
+    </section>
+
+    <section class="fit fade">
+      <div class="section-title">
+        <div>
+          <div class="label">Fit Check</div>
+          <h2>适合谁 / 不适合谁</h2>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="card"><h3>更适合</h3><p>真正喜欢研究、不怕不确定性、愿意从 paper 和实验里找方向，并希望参与前沿 AI 量化早期建设的人。</p></div>
+        <div class="card"><h3>不太适合</h3><p>只想要成熟平台、明确螺丝钉职责、固定工程任务，或对金融投资场景完全没有兴趣的人。</p></div>
+      </div>
+    </section>
+
+    <footer>
+      <strong>想进一步了解？</strong>
+      可联系你的猎头顾问，先做一次背景匹配和意向沟通。
+    </footer>
+  </main>
+
+  <script>
+    const items = document.querySelectorAll('.fade');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+    items.forEach((item) => observer.observe(item));
+  </script>
+</body>
+</html>

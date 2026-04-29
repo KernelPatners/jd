@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>基金经理 / 产品PM｜某端到端AI量化初创公司</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --paper: #ffffff;
+      --ink: #17201c;
+      --text: #43504b;
+      --muted: #7f8b86;
+      --line: #dfe5df;
+      --teal: #0f766e;
+      --teal-soft: #e1f3ef;
+      --gold: #a76f14;
+      --gold-soft: #fff1d6;
+      --red: #b9473f;
+      --red-soft: #fae7e5;
+      --radius: 8px;
+      --shadow: 0 12px 32px rgba(23, 32, 28, 0.08);
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.72;
+      -webkit-font-smoothing: antialiased;
+    }
+    .page {
+      width: min(100%, 920px);
+      margin: 0 auto;
+      background: var(--paper);
+      min-height: 100vh;
+      box-shadow: var(--shadow);
+    }
+    header {
+      padding: 34px 22px 26px;
+      background: linear-gradient(135deg, #ffffff 0%, #eef8f4 62%, #fff4dc 100%);
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+    h1 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(30px, 7vw, 54px);
+      line-height: 1.08;
+      letter-spacing: 0;
+      font-weight: 800;
+    }
+    .subtitle {
+      margin: 14px 0 0;
+      max-width: 720px;
+      color: #30403a;
+      font-size: 16px;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(15,118,110,0.2);
+      color: #27443e;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfa;
+    }
+    .fact {
+      padding: 18px 14px;
+      border-right: 1px solid var(--line);
+    }
+    .fact:last-child { border-right: 0; }
+    .fact strong {
+      display: block;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.2;
+      margin-bottom: 5px;
+    }
+    .fact span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+    .nav a {
+      white-space: nowrap;
+      text-decoration: none;
+      color: var(--text);
+      background: #f2f5f1;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    section {
+      padding: 26px 22px;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .label {
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    h2 {
+      margin: 4px 0 0;
+      color: var(--ink);
+      font-size: 23px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+    .lede {
+      margin: 0;
+      color: #33413b;
+      font-size: 15px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .card {
+      background: #fbfcfa;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+    .card h3 {
+      margin: 0 0 7px;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.35;
+    }
+    .card p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text);
+    }
+    .list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+    .list li {
+      position: relative;
+      padding-left: 24px;
+      color: #33413b;
+      font-size: 14px;
+    }
+    .list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag {
+      padding: 7px 9px;
+      background: var(--teal-soft);
+      color: #0b5f59;
+      border: 1px solid rgba(15,118,110,0.22);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .tag.gold {
+      background: var(--gold-soft);
+      color: #7a4d08;
+      border-color: rgba(167,111,20,0.22);
+    }
+    .split {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+      align-items: start;
+    }
+    details {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfcfa;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+    summary {
+      cursor: pointer;
+      color: var(--ink);
+      font-weight: 750;
+      font-size: 14px;
+    }
+    details p {
+      margin: 10px 0 0;
+      color: var(--text);
+      font-size: 13px;
+    }
+    .timeline {
+      counter-reset: step;
+      display: grid;
+      gap: 10px;
+    }
+    .step {
+      counter-increment: step;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+    .step::before {
+      content: counter(step);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .step h3 {
+      margin: 0 0 2px;
+      color: var(--ink);
+      font-size: 14px;
+    }
+    .step p {
+      margin: 0;
+      color: var(--text);
+      font-size: 13px;
+    }
+    .notice {
+      background: var(--gold-soft);
+      border: 1px solid rgba(167,111,20,0.24);
+      color: #6e4b10;
+      border-radius: var(--radius);
+      padding: 13px 14px;
+      font-size: 13px;
+      margin-top: 14px;
+    }
+    .fit {
+      background: #f9fbf8;
+    }
+    .fit .card:first-child {
+      border-color: rgba(15,118,110,0.22);
+      background: #f2fbf8;
+    }
+    .fit .card:last-child {
+      border-color: rgba(185,71,63,0.2);
+      background: var(--red-soft);
+    }
+    footer {
+      padding: 24px 22px 34px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      background: #fbfcfa;
+    }
+    footer strong {
+      display: block;
+      color: var(--ink);
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    .fade {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+    .fade.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (max-width: 720px) {
+      .facts { grid-template-columns: repeat(2, 1fr); }
+      .fact:nth-child(2) { border-right: 0; }
+      .fact:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .grid, .split { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="eyebrow"><span class="dot"></span> Anonymous Job Card</div>
+      <h1>基金经理 / 产品PM</h1>
+      <p class="subtitle">某端到端 AI 量化初创公司，正在寻找一位能把模型评测、组合分析和产品化连接起来的人。它不是传统基金经理岗位，也不是普通产品经理岗位。</p>
+      <div class="chips">
+        <span class="chip">端到端 AI 量化公司</span>
+        <span class="chip">北京 base</span>
+        <span class="chip">4-6w/月 + PnL分成</span>
+        <span class="chip">模型到产品化闭环</span>
+      </div>
+    </header>
+
+    <div class="facts">
+      <div class="fact"><strong>4-6W/月</strong><span>固定月薪区间</span></div>
+      <div class="fact"><strong>PnL分成</strong><span>长期激励方向</span></div>
+      <div class="fact"><strong>北京</strong><span>工作城市</span></div>
+      <div class="fact"><strong>近十亿级</strong><span>2026募资计划</span></div>
+    </div>
+
+    <nav class="nav">
+      <a href="#company">公司</a>
+      <a href="#mission">岗位</a>
+      <a href="#profile">画像</a>
+      <a href="#pay">薪酬</a>
+      <a href="#interview">面试</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <section id="company" class="fade">
+      <div class="section-title">
+        <div>
+          <div class="label">Company</div>
+          <h2>从自营实盘走向产品化的 AI 量化团队</h2>
+        </div>
+      </div>
+      <p class="lede">公司专注于端到端 AI 量化，用模型从市场数据中学习并生成持仓组合。当前以 A 股为主要市场，已进入自营实盘验证与产品化准备阶段，2026 年计划募资到 8-10 亿规模。</p>
+      <div class="grid" style="margin-top:16px;">
+        <div class="card"><h3>模型直接驱动投资</h3><p>策略范式不同于传统因子组合，核心是理解模型输出、评测模型表现并组织成产品。</p></div>
+        <div class="card"><h3>早期产品化关键角色</h3><p>团队需要有人把研究语言、策略表现、市场需求和产品表达翻译到同一张桌上。</p></div>
+        <div class="card"><h3>面向募资阶段</h3><p>公司正从自营验证走向产品发行和募资准备，需要更系统的产品组织能力。</p></div>
+        <div class="card"><h3>适合想转范式的人</h3><p>如果你相信 AI 端到端会改变传统量化，这个岗位会比成熟平台更早接触核心变化。</p></div>
+      </div>
+    </section>
+
+    <section id="mission" class="fade">
+      <div class="section-title">
+        <div>
+          <div class="label">Role</div>
+          <h2>这个岗位到底做什么</h2>
+        </div>
+      </div>
+      <div class="split">
+        <ul class="list">
+          <li>理解公司已有端到端模型，对不同模型表现进行评测、分析和比较。</li>
+          <li>围绕收益、回撤、稳定性、容量、换手、风格暴露等维度做产品化判断。</li>
+          <li>将多个模型或策略能力组合成适合市场沟通和资金接受的产品方案。</li>
+          <li>连接模型研究、风控归因、产品包装、渠道反馈和募资需求。</li>
+          <li>帮助公司从“模型有效”走向“产品可售、客户能理解、规模可承接”。</li>
+        </ul>
+        <div class="card">
+          <h3>一句话理解</h3>
+          <p>这不是让你用传统 PM 方式拍策略，而是让你懂模型、懂实盘、懂产品，把端到端 AI 量化能力翻译成可落地的投资产品。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="profile" class="fade">
+      <div class="section-title">
+        <div>
+          <div class="label">Profile</div>
+          <h2>候选人画像</h2>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">量化基金经理</span>
+        <span class="tag">量化研究员</span>
+        <span class="tag">2年以上实盘经验</span>
+        <span class="tag">懂模型评测</span>
+        <span class="tag">懂产品化</span>
+        <span class="tag gold">中小私募全流程优先</span>
+        <span class="tag gold">认可 AI 端到端范式</span>
+      </div>
+      <div class="grid" style="margin-top:16px;">
+        <div class="card"><h3>理想来源</h3><p>中小型量化私募中做过研究、组合、实盘、归因、产品沟通等完整链路的人。</p></div>
+        <div class="card"><h3>经验要求</h3><p>至少 2 年实盘相关经验。基金经理看管产品经验，量化研究员看实盘参与深度。</p></div>
+        <div class="card"><h3>核心能力</h3><p>能理解模型表现与市场需求之间的关系，不只是看净值，也能看风险收益结构。</p></div>
+        <div class="card"><h3>转型意愿</h3><p>能接受“模型决策”而不是传统基金经理个人策略决策核心的新范式。</p></div>
+      </div>
+    </section>
+
+    <section id="pay" class="fade">
+      <div class="section-title">
+        <div>
+          <div class="label">Compensation</div>
+          <h2>薪酬福利</h2>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="card"><h3>固定月薪</h3><p>4-6 万人民币/月，具体根据过往实盘经验、产品化能力和匹配度评估。</p></div>
+        <div class="card"><h3>PnL 分成</h3><p>岗位后续会与产品或策略表现绑定，PnL 分成方案以面试和 offer 沟通为准。</p></div>
+        <div class="card"><h3>基础福利</h3><p>社保公积金按公司政策缴纳，另有基础补贴、体检、团建等常规福利。</p></div>
+        <div class="card"><h3>发展空间</h3><p>随着产品化推进，未来可能向投研产品负责人、产品化负责人或业务核心角色发展。</p></div>
+      </div>
+      <div class="notice">PnL 分成属于长期激励方向，具体计算口径、触发条件和发放方式以公司正式沟通为准。</div>
+    </section>
+
+    <section id="interview" class="fade">
+      <div class="section-title">
+        <div>
+          <div class="label">Interview</div>
+          <h2>面试流程</h2>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="step"><div><h3>HR 简历面</h3><p>确认经历、实盘经验、产品理解、base 与薪资预期。</p></div></div>
+        <div class="step"><div><h3>AI 算法研究业务部门面</h3><p>沟通模型评测、量化实盘、组合归因、产品化理解。</p></div></div>
+        <div class="step"><div><h3>创始人复试</h3><p>重点确认对端到端 AI 量化范式的理解、转型动机和长期匹配度。</p></div></div>
+        <div class="step"><div><h3>终面谈薪</h3><p>确认薪资、PnL 分成口径、入职方式与后续安排。</p></div></div>
+      </div>
+    </section>
+
+    <section id="faq" class="fade">
+      <div class="section-title">
+        <div>
+          <div class="label">FAQ</div>
+          <h2>候选人常问问题</h2>
+        </div>
+      </div>
+      <details open>
+        <summary>这是传统基金经理岗位吗？</summary>
+        <p>不是完全传统的 PM 岗。这里的核心不是个人拍策略，而是理解和评测模型，把模型能力组织成可售产品。</p>
+      </details>
+      <details>
+        <summary>必须有名义基金经理 title 吗？</summary>
+        <p>不一定。量化研究员如果有 2 年以上实盘经验，并参与过比较完整的研究到实盘链路，也可以重点看。</p>
+      </details>
+      <details>
+        <summary>大平台候选人适合吗？</summary>
+        <p>如果只做单一因子或局部模块，可能不如中小私募全流程候选人匹配。关键是是否懂实盘、懂归因、懂产品化。</p>
+      </details>
+      <details>
+        <summary>为什么这个岗位有机会？</summary>
+        <p>公司正从自营实盘验证走向产品化和募资阶段，缺的是能把模型能力、策略表现和市场需求连接起来的人。</p>
+      </details>
+    </section>
+
+    <section class="fit fade">
+      <div class="section-title">
+        <div>
+          <div class="label">Fit Check</div>
+          <h2>适合谁 / 不适合谁</h2>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="card"><h3>更适合</h3><p>懂量化实盘，也愿意拥抱 AI 端到端范式，希望从传统策略人转向模型产品化核心角色的人。</p></div>
+        <div class="card"><h3>不太适合</h3><p>只想保留传统基金经理完整决策权，或只做纯研究、不愿面对产品和市场需求的人。</p></div>
+      </div>
+    </section>
+
+    <footer>
+      <strong>想进一步了解？</strong>
+      可联系你的猎头顾问，先做一次背景匹配和意向沟通。
+    </footer>
+  </main>
+
+  <script>
+    const items = document.querySelectorAll('.fade');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+    items.forEach((item) => observer.observe(item));
+  </script>
+</body>
+</html>
