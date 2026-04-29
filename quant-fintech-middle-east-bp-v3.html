@@ -1641,6 +1641,571 @@
         bottom: 24px;
       }
     }
+
+    /*
+      Apple fintech direction: product-keynote clarity, calm financial credibility.
+      Large type, quiet surfaces, precise spacing, no neon, no decorative noise.
+    */
+    :root {
+      --bg: #f5f5f7;
+      --paper: #ffffff;
+      --paper-soft: #f5f7fa;
+      --panel: rgba(255, 255, 255, 0.84);
+      --panel-strong: #ffffff;
+      --line: rgba(29, 29, 31, 0.1);
+      --line-strong: rgba(29, 29, 31, 0.18);
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --soft: #9b9ba1;
+      --jade: #08785f;
+      --cyan: #0071e3;
+      --gold: #9f7a25;
+      --coral: #b94d3d;
+      --ink: #ffffff;
+      --shadow: 0 18px 52px rgba(0, 0, 0, 0.08);
+      --radius: 8px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    body {
+      background:
+        linear-gradient(180deg, #fbfbfd 0%, #f5f5f7 52%, #eef2f5 100%);
+      color: var(--text);
+    }
+
+    body::before {
+      background:
+        linear-gradient(90deg, rgba(0, 113, 227, 0.04), transparent 30%, transparent 70%, rgba(8, 120, 95, 0.04));
+      opacity: 1;
+    }
+
+    .topbar {
+      top: 18px;
+      left: 28px;
+      right: 28px;
+      min-height: 48px;
+      padding: 8px 10px 8px 14px;
+      border: 1px solid rgba(29, 29, 31, 0.08);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      color: #6e6e73;
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.05);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      font-size: 11px;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .brand span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mark {
+      width: 24px;
+      height: 24px;
+      border: 0;
+      border-radius: 7px;
+      background:
+        linear-gradient(135deg, #0071e3 0%, #08785f 100%);
+    }
+
+    .mark::after {
+      display: none;
+    }
+
+    .icon-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 0;
+      background: rgba(29, 29, 31, 0.045);
+      color: #1d1d1f;
+      font-size: 17px;
+    }
+
+    .icon-btn:hover {
+      background: rgba(0, 113, 227, 0.12);
+      color: #0057b8;
+    }
+
+    .progress-wrap {
+      left: 34px;
+      right: 34px;
+      bottom: 20px;
+      grid-template-columns: 92px 1fr 92px;
+      color: #86868b;
+      font-size: 11px;
+      letter-spacing: 0;
+    }
+
+    .progress {
+      height: 3px;
+      border-radius: 99px;
+      background: rgba(29, 29, 31, 0.08);
+    }
+
+    .progress span {
+      border-radius: 99px;
+      background: linear-gradient(90deg, #0071e3, #08785f);
+    }
+
+    .slide {
+      padding: 104px 88px 82px;
+    }
+
+    .slide::after {
+      display: none;
+    }
+
+    .slide-inner {
+      width: min(1320px, 100%);
+      height: min(748px, calc(100vh - 190px));
+    }
+
+    .kicker {
+      color: #0071e3;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0;
+      text-transform: none;
+      margin-bottom: 18px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      color: #1d1d1f;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      font-size: clamp(56px, 7.4vw, 112px);
+      line-height: 0.96;
+      font-weight: 700;
+      max-width: 980px;
+    }
+
+    h2 {
+      font-size: clamp(42px, 4.6vw, 72px);
+      line-height: 1.03;
+      font-weight: 700;
+      max-width: 1040px;
+    }
+
+    h3 {
+      font-size: 21px;
+      font-weight: 650;
+      line-height: 1.2;
+    }
+
+    .lead {
+      color: #6e6e73;
+      font-size: clamp(20px, 1.7vw, 28px);
+      line-height: 1.48;
+      max-width: 860px;
+      margin-top: 24px;
+    }
+
+    .grid-2 {
+      grid-template-columns: minmax(0, 1fr) minmax(370px, 0.78fr);
+      gap: 58px;
+    }
+
+    .panel {
+      border: 1px solid rgba(29, 29, 31, 0.08);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .metric-row {
+      gap: 12px;
+      margin-top: 42px;
+      border: 0;
+    }
+
+    .metric {
+      min-height: 126px;
+      padding: 22px;
+      border: 1px solid rgba(29, 29, 31, 0.08);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .metric:last-child {
+      border-right: 1px solid rgba(29, 29, 31, 0.08);
+    }
+
+    .metric .num {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", Arial, sans-serif;
+      font-size: clamp(33px, 3.2vw, 52px);
+      font-weight: 700;
+      color: #1d1d1f;
+    }
+
+    .metric .label {
+      color: #86868b;
+      font-size: 14px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .cover-visual {
+      min-height: 610px;
+      border: 0;
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.96));
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.1);
+    }
+
+    .cover-visual::before {
+      inset: 38px;
+      padding: 0;
+      border-top: 0;
+      color: #1d1d1f;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", Arial, sans-serif;
+      font-size: 17px;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    .cover-visual::after {
+      left: 38px;
+      right: 38px;
+      top: 286px;
+      background: rgba(29, 29, 31, 0.08);
+      box-shadow: 0 86px 0 rgba(29, 29, 31, 0.08), 0 172px 0 rgba(29, 29, 31, 0.08);
+    }
+
+    .terminal-card {
+      left: 38px;
+      right: 38px;
+      bottom: 34px;
+      border-top: 1px solid rgba(29, 29, 31, 0.08);
+    }
+
+    .terminal-line {
+      color: #86868b;
+      border-bottom: 1px solid rgba(29, 29, 31, 0.08);
+      font-size: 13px;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .terminal-line strong {
+      color: #1d1d1f;
+      font-size: 18px;
+      font-weight: 650;
+    }
+
+    .label-chip {
+      border: 0;
+      border-radius: 99px;
+      padding: 7px 11px;
+      color: #0057b8;
+      background: rgba(0, 113, 227, 0.08);
+      font-size: 12px;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .grid-3 {
+      gap: 14px;
+      border: 0;
+    }
+
+    .market-card,
+    .support,
+    .deliverable {
+      border: 1px solid rgba(29, 29, 31, 0.08);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .market-card {
+      min-height: 238px;
+      padding: 28px;
+    }
+
+    .market-card:last-child {
+      border-right: 1px solid rgba(29, 29, 31, 0.08);
+    }
+
+    .market-card p {
+      font-size: 17px;
+      line-height: 1.5;
+    }
+
+    .quote-box {
+      margin-top: 30px;
+      padding: 28px 32px;
+      border: 0;
+      border-radius: 8px;
+      background: #1d1d1f;
+      color: #f5f5f7;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", Arial, sans-serif;
+      font-size: 26px;
+      line-height: 1.45;
+      box-shadow: 0 24px 54px rgba(0, 0, 0, 0.12);
+    }
+
+    .thesis {
+      gap: 14px;
+      margin-top: 36px;
+      border-top: 0;
+    }
+
+    .thesis-item,
+    .position-layer,
+    .tier {
+      border: 1px solid rgba(29, 29, 31, 0.08);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .thesis-item {
+      padding: 22px;
+      grid-template-columns: 46px minmax(0, 1fr);
+    }
+
+    .index,
+    .tier-code {
+      border: 0;
+      color: #ffffff;
+      background: linear-gradient(135deg, #0071e3, #08785f) !important;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", Arial, sans-serif;
+      font-weight: 700;
+    }
+
+    .index {
+      width: 38px;
+      height: 38px;
+    }
+
+    .stack {
+      gap: 12px;
+      border-top: 0;
+    }
+
+    .position-layer {
+      grid-template-columns: 112px minmax(0, 1fr);
+      padding: 18px 20px;
+    }
+
+    .position-layer span {
+      color: #0071e3;
+      font-size: 12px;
+      font-weight: 650;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .stats-board {
+      min-height: 538px;
+      border-radius: 8px;
+      background: #1d1d1f;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.14);
+    }
+
+    .stat-pill {
+      border-bottom-color: rgba(245, 245, 247, 0.14);
+    }
+
+    .stat-pill strong {
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", Arial, sans-serif;
+      font-weight: 700;
+    }
+
+    .stat-pill span {
+      color: rgba(245, 245, 247, 0.68);
+    }
+
+    .funnel {
+      gap: 12px;
+      margin-top: 34px !important;
+      border-top: 0;
+    }
+
+    .tier {
+      grid-template-columns: 76px minmax(0, 1fr) 240px;
+      padding: 22px;
+    }
+
+    .tier:hover,
+    .tier.active {
+      background: rgba(255, 255, 255, 0.94);
+      border-color: rgba(0, 113, 227, 0.28);
+      box-shadow: 0 16px 36px rgba(0, 113, 227, 0.08);
+    }
+
+    .tier-code {
+      height: 56px;
+      border-radius: 8px;
+    }
+
+    .tier-target {
+      font-size: 16px;
+      color: #1d1d1f;
+    }
+
+    .matrix-wrap {
+      margin-top: 28px !important;
+      border-radius: 8px;
+      background: #ffffff;
+      border-color: rgba(29, 29, 31, 0.08);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.06);
+    }
+
+    .matrix th {
+      color: #0057b8;
+      background: #f5f7fa;
+      letter-spacing: 0;
+      text-transform: none;
+      font-size: 13px;
+    }
+
+    .timeline {
+      gap: 14px;
+      margin-top: 34px;
+      border: 0;
+    }
+
+    .phase {
+      min-height: 428px;
+      padding: 28px;
+      border: 1px solid rgba(29, 29, 31, 0.08);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .phase:last-child {
+      border-right: 1px solid rgba(29, 29, 31, 0.08);
+    }
+
+    .phase::before {
+      color: rgba(0, 113, 227, 0.08);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", Arial, sans-serif;
+      font-weight: 700;
+    }
+
+    .phase h3 {
+      border-bottom: 0;
+      padding-bottom: 0;
+      margin-bottom: 22px;
+    }
+
+    .phase li::before,
+    .support-list li::before,
+    .questions li::before {
+      background: #0071e3;
+      border-radius: 50%;
+      transform: none;
+    }
+
+    .support-grid,
+    .deliverables {
+      gap: 14px;
+      border: 0;
+    }
+
+    .support {
+      min-height: 212px;
+      padding: 26px;
+    }
+
+    .closing-card {
+      padding: 48px;
+      border-radius: 8px;
+      background: #1d1d1f;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.14);
+    }
+
+    .closing-card h2 {
+      color: #ffffff;
+    }
+
+    .closing-card p {
+      color: rgba(245, 245, 247, 0.75);
+      font-size: 25px;
+    }
+
+    .deliverable {
+      min-height: 166px;
+      padding: 22px;
+      border-color: rgba(245, 245, 247, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: none;
+    }
+
+    .deliverable strong {
+      color: #ffffff;
+    }
+
+    .deliverable span {
+      color: rgba(245, 245, 247, 0.68);
+    }
+
+    .notes,
+    .thumb {
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 18px 52px rgba(0, 0, 0, 0.12);
+    }
+
+    .overview {
+      background: rgba(245, 245, 247, 0.92);
+    }
+
+    @media (max-width: 980px) {
+      .topbar,
+      .progress-wrap {
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .slide {
+        padding: 30px 18px;
+      }
+
+      h1 {
+        font-size: 44px;
+      }
+
+      h2 {
+        font-size: 33px;
+      }
+
+      .lead {
+        font-size: 19px;
+      }
+
+      .grid-3,
+      .timeline,
+      .support-grid,
+      .deliverables,
+      .metric-row {
+        gap: 12px;
+      }
+
+      .cover-visual {
+        min-height: 420px;
+      }
+
+      .tier {
+        grid-template-columns: 62px 1fr;
+      }
+    }
   </style>
 </head>
 <body>
