@@ -2206,6 +2206,404 @@
         grid-template-columns: 62px 1fr;
       }
     }
+
+    /*
+      Final responsive fit.
+      Desktop keeps a keynote canvas; mobile becomes a real vertical briefing,
+      not a squeezed landscape slide.
+    */
+    @media (min-width: 981px) {
+      .slide {
+        padding: clamp(84px, 8.8vh, 104px) clamp(54px, 5vw, 88px) clamp(64px, 7vh, 82px);
+      }
+
+      .slide-inner {
+        width: min(1280px, calc(100vw - 120px));
+        height: auto;
+        max-height: calc(100vh - 188px);
+      }
+
+      h1 {
+        font-size: clamp(58px, 5.2vw, 92px);
+        line-height: 0.98;
+      }
+
+      h2 {
+        font-size: clamp(36px, 3.3vw, 58px);
+      }
+
+      .lead {
+        font-size: clamp(18px, 1.35vw, 24px);
+      }
+
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr) minmax(340px, 0.72fr);
+        gap: clamp(34px, 4.2vw, 58px);
+      }
+
+      .cover-visual {
+        min-height: min(520px, calc(100vh - 260px));
+      }
+
+      .metric-row {
+        margin-top: clamp(22px, 3vh, 36px);
+      }
+
+      .metric {
+        min-height: 100px;
+        padding: 18px;
+      }
+
+      .metric .num {
+        font-size: clamp(30px, 2.8vw, 44px);
+      }
+
+      .market-card {
+        min-height: 196px;
+      }
+
+      .quote-box {
+        font-size: clamp(21px, 1.7vw, 25px);
+      }
+
+      .stats-board {
+        min-height: min(500px, calc(100vh - 260px));
+      }
+
+      .phase {
+        min-height: min(390px, calc(100vh - 310px));
+      }
+
+      .closing-card {
+        padding: clamp(30px, 3.2vw, 46px);
+      }
+    }
+
+    @media (max-width: 980px) {
+      html,
+      body {
+        height: auto;
+        min-height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      body {
+        background: #f5f5f7;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .deck {
+        min-height: 100vh;
+        height: auto;
+        overflow-x: hidden;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 80;
+        margin: 0;
+        min-height: 56px;
+        padding: 10px 12px;
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      }
+
+      .brand {
+        min-width: 0;
+        flex: 1;
+      }
+
+      .brand span {
+        max-width: 44vw;
+        font-size: 12px;
+      }
+
+      .mark {
+        width: 28px;
+        height: 28px;
+        flex: 0 0 auto;
+      }
+
+      .top-actions {
+        gap: 6px;
+        flex: 0 0 auto;
+      }
+
+      .icon-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+      }
+
+      .slide {
+        position: relative;
+        display: none;
+        min-height: calc(100vh - 116px);
+        padding: 28px 22px 92px;
+        opacity: 1;
+        transform: none;
+        overflow: visible;
+      }
+
+      .slide.active {
+        display: block;
+      }
+
+      .slide-inner {
+        width: 100%;
+        height: auto;
+        max-height: none;
+        margin: 0;
+      }
+
+      .grid-2,
+      .grid-3,
+      .timeline,
+      .support-grid,
+      .deliverables,
+      .metric-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .kicker {
+        font-size: 13px;
+        line-height: 1.25;
+        margin-bottom: 14px;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+      }
+
+      h1 {
+        font-size: clamp(36px, 11vw, 52px);
+        line-height: 1.04;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        word-break: normal;
+      }
+
+      h2 {
+        font-size: clamp(28px, 8vw, 40px);
+        line-height: 1.12;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+      }
+
+      h3 {
+        font-size: 19px;
+      }
+
+      .lead {
+        font-size: 18px;
+        line-height: 1.48;
+        max-width: 100%;
+        margin-top: 18px;
+      }
+
+      .cover-visual {
+        display: none;
+      }
+
+      .metric-row {
+        margin-top: 24px;
+      }
+
+      .metric {
+        min-height: auto;
+        padding: 18px;
+      }
+
+      .metric .num {
+        font-size: 38px;
+      }
+
+      .metric .label {
+        font-size: 13px;
+      }
+
+      .thesis {
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .thesis-item {
+        grid-template-columns: 38px 1fr;
+        gap: 14px;
+        padding: 18px;
+      }
+
+      .thesis-item p,
+      .market-card p,
+      .position-layer p,
+      .tier p {
+        font-size: 16px;
+        line-height: 1.48;
+      }
+
+      .market-card,
+      .phase,
+      .support,
+      .deliverable {
+        min-height: auto;
+        padding: 18px;
+      }
+
+      .quote-box {
+        margin-top: 16px;
+        padding: 20px;
+        font-size: 19px;
+        line-height: 1.45;
+      }
+
+      .stack {
+        gap: 10px;
+        margin-top: 22px !important;
+      }
+
+      .position-layer {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 16px;
+      }
+
+      .stats-board {
+        min-height: auto;
+        padding: 18px;
+        margin-top: 14px;
+      }
+
+      .stat-pill {
+        padding: 16px 0;
+        align-items: flex-start;
+      }
+
+      .stat-pill strong {
+        font-size: 28px;
+      }
+
+      .stat-pill span {
+        font-size: 13px;
+      }
+
+      .funnel {
+        margin-top: 22px !important;
+      }
+
+      .tier {
+        grid-template-columns: 54px 1fr;
+        gap: 14px;
+        padding: 16px;
+      }
+
+      .tier-code {
+        width: 48px;
+        height: 48px;
+        font-size: 26px;
+      }
+
+      .tier-target {
+        grid-column: 1 / -1;
+        text-align: left;
+        font-size: 15px;
+        padding-left: 62px;
+      }
+
+      .matrix-wrap {
+        margin-top: 18px !important;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      table.matrix {
+        min-width: 820px;
+        font-size: 13px;
+      }
+
+      .matrix th,
+      .matrix td {
+        padding: 12px;
+      }
+
+      .timeline {
+        margin-top: 22px;
+      }
+
+      .phase::before {
+        font-size: 52px;
+        top: 12px;
+        right: 16px;
+      }
+
+      .phase h3 {
+        max-width: 72%;
+        margin-bottom: 16px;
+      }
+
+      .phase li,
+      .support-list li,
+      .questions li {
+        font-size: 15px;
+      }
+
+      .support-grid {
+        margin-top: 20px;
+      }
+
+      .closing-card {
+        padding: 24px 20px;
+      }
+
+      .closing-card p {
+        font-size: 18px;
+        line-height: 1.5;
+      }
+
+      .deliverables {
+        margin-top: 22px;
+      }
+
+      .deliverable {
+        background: rgba(255,255,255,0.08);
+      }
+
+      .progress-wrap {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 90;
+        grid-template-columns: 64px 1fr 82px;
+        gap: 12px;
+        padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+        background: rgba(255,255,255,0.92);
+        border-top: 1px solid rgba(29,29,31,0.08);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+      }
+
+      .notes {
+        left: 14px;
+        right: 14px;
+        bottom: 70px;
+        width: auto;
+        max-height: 45vh;
+      }
+
+      .overview {
+        padding: 72px 18px 28px;
+      }
+    }
   </style>
 </head>
 <body>
