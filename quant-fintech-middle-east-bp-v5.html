@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Middle East Quant Strategy BP</title>
+  <title>Candidate | Quant Investment Platform 中东市场 BP</title>
   <style>
     :root {
       --bg: #06090d;
@@ -2279,6 +2279,54 @@
       }
     }
 
+    /*
+      BP slide type scale.
+      Content pages should read like an institutional roadshow, not oversized
+      hero posters. Keep Chinese headings balanced and avoid orphan characters.
+    */
+    @media (min-width: 981px) {
+      .slide:not(:first-of-type) h2 {
+        font-size: clamp(34px, 2.65vw, 46px);
+        line-height: 1.12;
+        max-width: 1180px;
+        text-wrap: balance;
+        word-break: keep-all;
+        overflow-wrap: normal;
+      }
+
+      .slide:not(:first-of-type) .lead {
+        font-size: clamp(18px, 1.25vw, 22px);
+        line-height: 1.5;
+        max-width: 1040px;
+      }
+
+      .grid-3 {
+        gap: 16px;
+      }
+
+      .market-card {
+        min-height: 178px;
+        padding: 28px;
+      }
+
+      .market-card p,
+      .thesis-item p,
+      .position-layer p,
+      .tier p {
+        font-size: 17px;
+        line-height: 1.45;
+      }
+
+      .quote-box {
+        font-size: clamp(20px, 1.45vw, 23px);
+        line-height: 1.46;
+      }
+
+      .closing-card h2 {
+        max-width: 1120px;
+      }
+    }
+
     @media (max-width: 980px) {
       html,
       body {
@@ -2324,7 +2372,7 @@
       }
 
       .brand span {
-        max-width: 44vw;
+        max-width: 30vw;
         font-size: 12px;
       }
 
@@ -2335,13 +2383,13 @@
       }
 
       .top-actions {
-        gap: 6px;
+        gap: 5px;
         flex: 0 0 auto;
       }
 
       .icon-btn {
-        width: 36px;
-        height: 36px;
+        width: 34px;
+        height: 34px;
         font-size: 18px;
       }
 
@@ -2375,6 +2423,7 @@
         display: grid;
         grid-template-columns: 1fr;
         gap: 12px;
+        min-width: 0;
       }
 
       .kicker {
@@ -2394,9 +2443,11 @@
       }
 
       h2 {
-        font-size: clamp(28px, 8vw, 40px);
-        line-height: 1.12;
+        font-size: clamp(24px, 6.2vw, 31px);
+        line-height: 1.16;
         max-width: 100%;
+        text-wrap: balance;
+        word-break: normal;
         overflow-wrap: anywhere;
       }
 
@@ -2454,9 +2505,20 @@
       .market-card,
       .phase,
       .support,
-      .deliverable {
+      .deliverable,
+      .quote-box,
+      .closing-card {
         min-height: auto;
+        min-width: 0;
         padding: 18px;
+        overflow-wrap: anywhere;
+      }
+
+      .market-card p,
+      .deliverable span,
+      .quote-box {
+        word-break: normal;
+        overflow-wrap: anywhere;
       }
 
       .quote-box {
@@ -2607,7 +2669,7 @@
   </style>
 </head>
 <body>
-  <main class="deck" aria-label="Middle East Quant Strategy BP">
+  <main class="deck" aria-label="Candidate Quant Investment PlatformCEO面试BP展示">
     <div class="topbar">
       <div class="brand">
         <div class="mark" aria-hidden="true"></div>
@@ -2624,11 +2686,11 @@
     <section class="slide active" data-note="开场只讲一件事：我不是来泛泛介绍中东机会，而是把我手上的资源转成可验证的 pipeline。先稳住 CEO 对执行力的判断。">
       <div class="slide-inner grid-2">
         <div>
-          <p class="kicker">Zhang Jing / CEO Interview BP</p>
+          <p class="kicker">Candidate / CEO Interview BP</p>
           <h1>把中国量化能力带到中东 LP 市场</h1>
-          <p class="lead">我会先用已有中东资源打开高质量对话，再用platform的机构化平台能力建立信任，最后把客户推进到 NDA、DD、PM meeting 和真实 pipeline。</p>
+          <p class="lead">我会先用已有中东资源打开高质量对话，再用该平台的机构化能力建立信任，最后把客户推进到 NDA、DD、PM meeting 和真实 pipeline。</p>
           <div class="metric-row">
-            <div class="metric panel"><div class="num">bn-level</div><div class="label">platform discretionary capital</div></div>
+            <div class="metric panel"><div class="num">bn-level</div><div class="label">platform institutional capital</div></div>
             <div class="metric panel"><div class="num">100+</div><div class="label">professionals</div></div>
             <div class="metric panel"><div class="num">60+</div><div class="label">research & engineering</div></div>
             <div class="metric panel"><div class="num">90d</div><div class="label">验证市场路径</div></div>
@@ -2652,11 +2714,11 @@
       </div>
     </section>
 
-    <section class="slide" data-note="这一页直接回应 CEO 最关心的可行性：尊重主权基金长期价值，但前期突破口要更务实，先从可约到、能反馈、能进 DD 的客户开始。">
+    <section class="slide" data-note="这一页直接回应 CEO 最关心的可行性：不预设Candidate一定从哪类机构开始，而是先盘清她手里的资源、客户兴趣和可推进路径。">
       <div class="slide-inner">
         <p class="kicker">01 / Core Thesis</p>
-        <h2>我的判断：中东有机会，前期突破口要从可转化客户开始。</h2>
-        <p class="lead">主权基金是长期重要目标，但前 90 天更适合先从已有中国资产兴趣、能约到并能进入产品讨论的家办和财富平台切入。</p>
+        <h2>我的判断：中东有机会，先从可转化客户开始。</h2>
+        <p class="lead">前 90 天我会先盘清自己手里的中东资源，判断哪些客户已有中国资产兴趣、哪些人能约到、哪些关系可以进入产品讨论。</p>
         <div class="thesis">
           <div class="thesis-item">
             <div class="index">1</div>
@@ -2668,7 +2730,7 @@
           </div>
           <div class="thesis-item">
             <div class="index">3</div>
-            <div><h3>再逐步延伸到大型机构和主权基金</h3><p>在前期客户反馈、产品材料和尽调问题跑清楚后，再用更机构化的方式推进大型 allocator。</p></div>
+            <div><h3>再判断是否延伸到大型机构</h3><p>在客户反馈、产品材料和尽调问题跑清楚后，再看是否推进更大规模的 allocator 或长期机构关系。</p></div>
           </div>
         </div>
       </div>
@@ -2677,7 +2739,7 @@
     <section class="slide" data-note="这里讲市场，不要泛泛说中东客户都对中国感兴趣。重点是已有中国资产兴趣的客户，需要更清楚的产品解释、结构安排和机构背书。">
       <div class="slide-inner">
         <p class="kicker">02 / Why Middle East</p>
-        <h2>我会优先切入已经对中国资产有兴趣的中东客户。</h2>
+        <h2>优先切入已有中国资产兴趣的中东客户。</h2>
         <div class="grid-3" style="margin-top:36px">
           <div class="market-card panel">
             <span class="label-chip">Capital concentration</span>
@@ -2692,15 +2754,15 @@
             <p>Crypto 背景客户和另类资产客户未必熟悉 A 股，但更容易理解系统化交易、风险控制和策略分散。</p>
           </div>
         </div>
-        <div class="quote-box">我不会把platform简单包装成“中国基金”，而是介绍成一个以中国市场为核心、具备系统化研究、交易执行、风险控制、离岸结构和机构治理能力的量化投资平台。</div>
+        <div class="quote-box">我不会把该平台简单包装成“中国基金”，而是介绍成一个以中国市场为核心、具备系统化研究、交易执行、风险控制、离岸结构和机构治理能力的量化投资平台。</div>
       </div>
     </section>
 
-    <section class="slide" data-note="这一页是产品叙事。先从 LP 能理解的配置价值进入，再落到platform事实：capital、MAS、团队、风控、多策略。">
+    <section class="slide" data-note="这一页是产品叙事。先从 LP 能理解的配置价值进入，再落到平台事实：capital、MAS、团队、风控、多策略。">
       <div class="slide-inner grid-2">
         <div>
           <p class="kicker">03 / Product Narrative</p>
-          <h2>我会把platform卖成“中国 alpha + 机构化治理”的组合。</h2>
+          <h2>我会把平台介绍成“中国 alpha + 机构化治理”的组合。</h2>
           <div class="stack" style="margin-top:32px">
             <div class="position-layer"><span>Alpha</span><p>A 股仍有散户行为偏差和微观结构机会，但持续提取取决于研究、模型治理、执行和风控。</p></div>
             <div class="position-layer"><span>Portfolio</span><p>对中东客户，价值不是押注中国 beta，而是提供与美元资产相关性较低的收益来源。</p></div>
@@ -2709,7 +2771,7 @@
           </div>
         </div>
         <div class="stats-board panel">
-          <div class="stat-pill"><strong>bn-level</strong><span>discretionary capital<br>as of 2025-12-31</span></div>
+          <div class="stat-pill"><strong>bn-level</strong><span>Discretionary capital<br>verified track record</span></div>
           <div class="stat-pill"><strong>MAS</strong><span>Singapore CMS licence<br>regulated entity</span></div>
           <div class="stat-pill"><strong>6</strong><span>China Market Neutral / HFT / Enhanced Indexing / Convertibles / Global Macro / Global Equities</span></div>
           <div class="stat-pill"><strong>3-layer</strong><span>Pre-trade / Intraday / Post-trade risk management</span></div>
@@ -2742,17 +2804,17 @@
       </div>
     </section>
 
-    <section class="slide" data-note="这页体现销售判断。不要全部产品都说一遍，核心是不同客户不同入口，China Market Neutral 是第一入口。">
+    <section class="slide" data-note="这页体现初步销售判断：先说明不同客户可能关注什么，具体主推策略和产品入口需要再和香港 CEO 校准。">
       <div class="slide-inner">
         <p class="kicker">05 / Product-Market Fit</p>
-        <h2>不同 LP 用不同入口，第一入口我建议用 China Market Neutral。</h2>
+        <h2>不同 LP 的产品入口，需要和香港 CEO 进一步校准。</h2>
         <div class="matrix-wrap panel" style="margin-top:32px">
           <table class="matrix" aria-label="客户类型与策略匹配表">
             <thead>
               <tr>
                 <th>Client type</th>
                 <th>Need / concern</th>
-                <th>Entry strategy</th>
+                <th>Possible strategy</th>
                 <th>Message</th>
               </tr>
             </thead>
@@ -2882,7 +2944,7 @@
         </div>
         <div class="panel" style="padding:30px">
           <ul class="questions">
-            <li>M&S 面向海外 LP 现阶段主要推哪条策略？China Market Neutral 是否作为第一入口？</li>
+            <li>平台面向海外 LP 现阶段主要推哪条策略？China Market Neutral 是否作为第一入口？</li>
             <li>牌照主体和办公室分别在哪里？香港、新加坡及其他区域的分工如何？</li>
             <li>中东相关业务是否已有人员或合作方？未来希望我承担 BD、IR 还是区域负责人角色？</li>
             <li>募资对象优先级如何排序：家办、EAM、私人银行平台、机构 allocator、主权基金？</li>
@@ -2893,18 +2955,18 @@
       </div>
     </section>
 
-    <section class="slide" data-note="结尾要稳。不要说我一定能带来多少钱，而是承诺 90 天跑清楚市场、产品入口和资源质量。">
+    <section class="slide" data-note="结尾要稳。不要说我一定能带来多少钱，而是说明 90 天要验证目标客户、资源质量和推进路径。">
       <div class="slide-inner">
         <p class="kicker">09 / Closing</p>
         <div class="closing-card panel">
-          <h2>我不会承诺 90 天内一定拿下主权基金，但我会把三件事跑清楚。</h2>
+          <h2>我会用 90 天把目标客户、资源质量和推进打法跑清楚。</h2>
           <div class="deliverables">
             <div class="deliverable"><strong>哪类客户真的愿意看</strong><span>家办、EAM、平台、crypto 量化友好客户还是大型 allocator。</span></div>
-            <div class="deliverable"><strong>哪条策略最好作为入口</strong><span>优先验证 China Market Neutral，再扩展到 Enhanced Indexing 等策略。</span></div>
+            <div class="deliverable"><strong>哪条策略适合作为入口</strong><span>结合客户反馈和香港 CEO 判断，再确定主推策略和产品顺序。</span></div>
             <div class="deliverable"><strong>哪些资源进入真实路径</strong><span>不是“认识很多人”，而是能进入 NDA、DDQ、PM meeting。</span></div>
             <div class="deliverable"><strong>下一阶段是否值得投入</strong><span>是否需要路演、合作方、常驻或更正式的区域打法。</span></div>
           </div>
-          <p style="margin-top:34px">我的目标，是先用 90 天证明中东市场路径是否成立。如果成立，把它做成platform在大中华及亚洲之外，一个长期可复用的海外 LP 增量入口。</p>
+          <p style="margin-top:34px">我的目标，是先用 90 天证明我自己是否能构建开拓中东市场的有效路径。争取把它做成该平台在大中华及亚洲之外，一个长期可复用的海外 LP 增量入口。</p>
         </div>
       </div>
     </section>
@@ -2941,7 +3003,7 @@
       ['02', '市场机会', '优先切入已有中国资产兴趣的客户'],
       ['03', '产品叙事', '中国 alpha + 机构化治理'],
       ['04', '客户分层', 'A / B / C 三层推进'],
-      ['05', '产品匹配', '不同 LP 用不同入口'],
+      ['05', '产品匹配', '策略入口待校准'],
       ['06', '90 天计划', '把市场路径跑清楚'],
       ['07', '需要支持', '材料、合规、团队、品牌'],
       ['08', '关键事项', '策略、牌照、人员架构和里程碑'],
